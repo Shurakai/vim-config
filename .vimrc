@@ -163,3 +163,11 @@ set t_Co=256
 
 " Swap current word with the next, but make cursor stay on current position
 :nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
+
+
+
+" Configuration for the taglist plugin
+let Tlist_Use_Right_Window = 1           " Moves window to the right
+let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited gets closed
+let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when its opened
+let Tlist_File_Fold_Auto_Close = 1
