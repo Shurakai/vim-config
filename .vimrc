@@ -3,12 +3,11 @@
 " side effect as well.
 set nocompatible
 
-" Set vim to 256
-set t_Co=256
-
-" Dark background, so we can use the wombat colorscheme!
-""highlight normal ctermbg=black ctermfg=white
+" The default colorscheme is the wombat colorscheme, but if we're running VIM inside a terminal,
+" we need to make sure that we're using the 256 colors version
 if !has("gui_running") 
+    " Set vim to 256 colors
+    set t_Co=256
     colorscheme wombat256
 else
     colorscheme wombat
@@ -44,25 +43,21 @@ set expandtab
 " Allows us to use backspace on (nearly) everything
 set backspace=start,indent,eol
 
-"impoved search functionalities
-set incsearch
-
-" Highlights search results
-set hlsearch
+set incsearch " Starts searching as soon as you start typing 
+set hlsearch " Highlights search results
 
 " Start again from the beginning of the file if EOF is hit. Default is true,
 " but we still specify it here.
 set wrapscan
 
-" Use case insensitive search, except when using capital letters
-set ignorecase
-set smartcase
+set ignorecase " Use case insensitive search...
+set smartcase  " ... except when there are capital letters contained in the search string
 
 " improves the menu when pressing "tab" in the command line
 set wildmenu
 set wildignore=*~           " Ignore backup files.
 
-" Keeps more info in history. Default is 20.
+" Keeps more info in history. Default is by the way 20.
 set history=1000
 
 " While commenting, new lines will not be commented
@@ -74,11 +69,12 @@ set formatoptions-=o
 "set foldnestmax=3           " Don't fold deeper than 3 levels
 
 " Start scrolling the window when we're 8 lines away from the border of the
-" current window
-set scrolloff=8
+" current window or 7 lines away from the side
+set scrolloff    =8
 set sidescrolloff=7
 
-" Activates filetype plugins. This is necessary e.g. for SnippetsEmu to work correctly.
+" Activates filetype plugins. This is necessary e.g. for a proper
+" PHP-Integration to work correctly. Also required by lots of plugins
 filetype on
 filetype plugin on
 
@@ -164,9 +160,6 @@ map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
 nnoremap <C-H> :nohls<CR><C-H>
 inoremap <C-H> <C-0>:nohls<CR>
 
-" Terminal has 256 colors
-set t_Co=256
-
 " Swap current word with next word (gw) or with previous word (gl)
 " This version will work across newlines:
 :nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
@@ -174,8 +167,6 @@ set t_Co=256
 
 " Swap current word with the next, but make cursor stay on current position
 :nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
-
-
 
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
