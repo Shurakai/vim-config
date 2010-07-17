@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/home/heinrich/.vim'
 let g:netrw_dirhist_2='/etc/apache2/sites-available'
+let g:netrw_dirhist_3='/var/workspaces/nexxone'
+let g:netrw_dirhist_4='/home/heinrich/.vim/colors'

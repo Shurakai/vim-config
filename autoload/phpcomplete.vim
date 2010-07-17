@@ -685,6 +685,7 @@ function! phpcomplete#LoadData() " {{{
 " defined variable
 let g:php_keywords = {
 \ 'PHP_SELF':'',
+\ 'namespace':'',
 \ 'argv':'',
 \ 'argc':'',
 \ 'GATEWAY_INTERFACE':'',

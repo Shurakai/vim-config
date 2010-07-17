@@ -3,6 +3,17 @@
 " side effect as well.
 set nocompatible
 
+" Set vim to 256
+set t_Co=256
+
+" Dark background, so we can use the wombat colorscheme!
+""highlight normal ctermbg=black ctermfg=white
+if !has("gui_running") 
+    colorscheme wombat256
+else
+    colorscheme wombat
+endif
+
 " display line numbers 
 set nu
 
@@ -58,9 +69,9 @@ set history=1000
 set formatoptions-=o
 
 " These commands open folds
-set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
-set foldmethod=indent       " Folds will be calculated on indentation
-set foldnestmax=3           " Don't fold deeper than 3 levels
+"set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+"set foldmethod=indent       " Folds will be calculated on indentation
+"set foldnestmax=3           " Don't fold deeper than 3 levels
 
 " Start scrolling the window when we're 8 lines away from the border of the
 " current window
