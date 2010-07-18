@@ -157,8 +157,8 @@ map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
 
 " After doing a search with hlsearch turned on, all results are still being
 " highlighted. Thats really messy, so we want to disable it quickly.
-nnoremap <C-H> :nohls<CR><C-H>
-inoremap <C-H> <C-0>:nohls<CR>
+nnoremap <silent> <C-H> :nohls<CR><C-H>
+inoremap <silent> <C-H> <C-0>:nohls<CR>
 
 " Swap current word with next word (gw) or with previous word (gl)
 " This version will work across newlines:
