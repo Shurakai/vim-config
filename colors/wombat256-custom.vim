@@ -15,7 +15,7 @@ if version > 580
 	endif
 endif
 
-let g:colors_name = "wombat256"
+let g:colors_name = "wombat256-custom"
 
 if !has("gui_running") && &t_Co != 88 && &t_Co != 256
 	finish
@@ -243,7 +243,6 @@ call <SID>X("CursorColumn",	"",			"2d2d2d",	"")
 call <SID>X("Search",		"d787ff",	"5f5f5f",	"")
 call <SID>X("MatchParen",	"ecee90",	"857b6f",	"bold")
 call <SID>X("SpecialKey",	"6c6c6c",	"2d2d2d",	"none")
-"597418" "1e67d4"
 call <SID>X("Visual",		"ecee90",	"1e67d4",	"none")
 call <SID>X("LineNr",		"857b6f",	"121212",	"none")
 call <SID>X("Folded",		"a0a8b0",	"404048",	"none")

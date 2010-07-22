@@ -8,7 +8,7 @@ set nocompatible
 if !has("gui_running") 
     " Set vim to 256 colors
     set t_Co=256
-    colorscheme wombat256
+    colorscheme wombat256-custom
 else
     colorscheme wombat
 endif
@@ -77,6 +77,10 @@ set sidescrolloff=7
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype on
 filetype plugin on
+
+" Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory "
+set backupdir=$HOME/.vim/backup
+set directory=$HOME/.vim/backup
 
 " Allows us to change buffers before they were saved. This is okay because VIM
 " will force us to use something like :qa! to quit VIM if there is an unsaved
