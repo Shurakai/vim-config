@@ -88,11 +88,11 @@ let g:pdv_cfg_CommentSingle = "//"
 " Default values
 let g:pdv_cfg_Type = "mixed"
 " let g:pdv_cfg_Package = "Framework"
-let g:pdv_cfg_Package = "Webdav"
-let g:pdv_cfg_Version = "//autogen//"
-let g:pdv_cfg_Author = ""
-let g:pdv_cfg_Copyright = "Copyright (c) 2010 All rights reserved."
-let g:pdv_cfg_License = "PHP Version 3.0 {@link http://www.php.net/license/3_0.txt}"
+let g:pdv_cfg_Package = ""
+let g:pdv_cfg_Version = ""
+let g:pdv_cfg_Author = "Christian Heinrich <christian.heinrich@livando.com>"
+let g:pdv_cfg_Copyright = "Copyright (c) 2010 by livando.com All rights reserved."
+let g:pdv_cfg_License = ""
 
 let g:pdv_cfg_ReturnVal = "void"
 
@@ -104,7 +104,7 @@ let g:pdv_cfg_Uses = 1
 let g:pdv_cfg_paste = 1
 
 " Whether for PHP5 code PHP4 tags should be set, like @access,... (1|0)?
-let g:pdv_cfg_php4always = 1
+let g:pdv_cfg_php4always = 0
  
 " Whether to guess scopes after PEAR coding standards:
 " $_foo/_bar() == <private|protected> (1|0)?
