@@ -1,144 +1,41 @@
-" File:        php.vim
-" Description: PHP Integration for VIM plugin
-" 			   This file is a considerable fork of the original 
-" 			   PDV written by Tobias Schlitt <toby@php.net>.
-" Maintainer:  Steve Francia <steve.francia@gmail.com> <http://spf13.com>
-" Version:     0.8
-" Last Change: 23rd April 2010
-" 
-" 
-" Section: script init stuff {{{1
-if exists("loaded_piv")
+" This file configures several PHP properties and delivers some pretty cool functionality, like the PhpAlign() function
+" Some of this stuff has originally been taken from Tobias Schlitt
+
+if exists("loaded_php_vim_integration")
     finish
 endif
-let loaded_piv = 1
+let loaded_php_vim_integration = 1
 
-"
-" Function: s:InitVariable() function {{{2
-" This function is used to initialise a given variable to a given value. The
-" variable is only initialised if it does not exist prior
-"
-" Args:
-"   -var: the name of the var to be initialised
-"   -value: the value to initialise var to
-"
-" Returns:
-"   1 if the var is set, 0 otherwise
-function s:InitVariable(var, value)
-    if !exists(a:var)
-        exec 'let ' . a:var . ' = ' . "'" . a:value . "'"
-        return 1
-    endif
-    return 0
-endfunction
+" These configurations are supposed to match the php.vim syntax file
+" which can be found in ~/.vim/syntax/php.vim
+let php_sql_query         = 1 " highlight sql in strings?
+let php_htmlInStrings     = 1 " highlight html in strings?
+let php_noShortTags       = 1 " Do not identify <? ?> as PHP
+let php_folding           = 1 " Enable folding?
+let php_sync_method       = -1 " -1 mean sync by search
 
-
-" {{{ Settings
-" First the global PHP configuration
-let php_sql_query         = 1 " to highlight SQL syntax in strings
-let php_htmlInStrings     = 1 " to highlight HTML in string
-let php_noShortTags       = 1 " to disable short tags 
-let php_folding           = 1  "to enable folding for classes and functions
 let PHP_autoformatcomment = 1
-let php_sync_method       = -1
-
-" Section: variable init calls {{{2
-call s:InitVariable("g:load_doxygen_syntax", 1)
-call s:InitVariable("g:syntax_extra_php", 'doxygen')
-call s:InitVariable("g:syntax_extra_inc", 'doxygen')
-call s:InitVariable("g:PIVCreateDefaultMappings", 1)
-call s:InitVariable("g:PIVPearStyle", 0)
-
-" Auto expand tabs to spaces
-" setlocal expandtab
-
-setlocal autoindent " Auto indent after a {
-setlocal smartindent
-
-" Linewidth to 79, because of the formatoptions this is only valid for
-" comments
-setlocal textwidth=79
-set formatoptions=qrocb
-
-setlocal nowrap 		" Do not wrap lines automatically
-
 " Correct indentation after opening a phpdocblock and automatic * on every
 " line
 setlocal formatoptions=qroct
 
-" Use php syntax check when doing :make
-setlocal makeprg=php\ -l\ %
-
-" Use errorformat for parsing PHP error output
-setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-
-syntax on " Switch syntax highlighting on, if it was not
-
-"setlocal keywordprg=pman " Use pman for manual pages
-
-" }}} Settings
-
-" {{{ Command mappings
 nnoremap <silent> <plug>PIVphpDocSingle :call PhpDocSingle()<CR>
 vnoremap <silent> <plug>PIVphpDocRange :call PhpDocRange()<CR>
 vnoremap <silent> <plug>PIVphpAlign :call PhpAlign()<CR>
 "inoremap <buffer> <leader>d :call PhpDocSingle()<CR>i
 
-" Map ; to run PHP parser check
-" noremap ; :!php5 -l %<CR>
-
 " Map ; to "add ; to the end of the line, when missing"
 noremap <silent> ; :s/\([^;]\)$/\1;/<cr>:nohlsearch<cr>
 
-" Map <ctrl>+p to single line mode documentation (in insert and command mode)
-"inoremap <buffer> <leader>d :call PhpDocSingle()<CR>i
-"nnoremap <buffer> <leader>d :call PhpDocSingle()<CR>
-" Map <ctrl>+p to multi line mode documentation (in visual mode)
-"vnoremap <buffer> <leader>d :call PhpDocRange()<CR>
+" Map ,pa to align variables
+map ,pa <plug>PIVphpAlign <cr>
 
 " Map <CTRL>-H to search phpm for the function name currently under the cursor (insert mode only)
 inoremap <buffer> <C-H> <ESC>:!phpm <C-R>=expand("<cword>")<CR><CR>
 
-" }}}
-
-" {{{ Automatic close char mapping
-
-if g:PIVPearStyle
-	inoremap <buffer>  { {<CR>}<C-O>O
-	inoremap <buffer> ( (  )<LEFT><LEFT>
-else
-	inoremap  { {<CR>}<C-O>O
-	inoremap ( ()<LEFT>
-endif
-
-inoremap <buffer> [ []<LEFT>
-inoremap <buffer> " ""<LEFT>
-inoremap <buffer> ' ''<LEFT>
-
-" }}} Automatic close char mapping
-
-" {{{ Wrap visual selections with chars
-
-:vnoremap <buffer> ( "zdi(<C-R>z)<ESC>
-:vnoremap <buffer> { "zdi{<C-R>z}<ESC>
-:vnoremap <buffer> [ "zdi[<C-R>z]<ESC>
-:vnoremap <buffer> ' "zdi'<C-R>z'<ESC>
-" Removed in favor of register addressing
-" :vnoremap " "zdi"<C-R>z"<ESC>
-
-" }}} Wrap visual selections with chars
-
-" {{{ Dictionary completion
-
-" The completion dictionary is provided by Rasmus:
-" http://lerdorf.com/funclist.txt
-"setlocal dictionary+=$HOME/.vim/ftplugin/php/funclist.txt dictionary+=$HOME/.vim/ftplugin/php/funclist.txt
-" Use the dictionary completion
-""setlocal complete-=k complete+=k
-
-" }}} Dictionary completion
-
 " {{{ Alignment
+" Allows to align variables correctly.
+" This function has been taken from Tobias Schlitt's original PDV 
 
 func! PhpAlign() range
     let l:paste = &g:paste
@@ -154,7 +51,7 @@ func! PhpAlign() range
 			continue
 		endif
 		" \{-\} matches ungreed *
-        let l:index = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\S\{0,1}=\S\{0,1\}\s.*$', '\1', "") 
+        let l:index = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\S\{0,1}=\S\{0,1\}\s*.*$', '\1', "") 
         let l:indexlength = strlen (l:index)
         let l:maxlength = l:indexlength > l:maxlength ? l:indexlength : l:maxlength
         let l:line = l:line + 1
@@ -169,9 +66,9 @@ func! PhpAlign() range
 			continue
 		endif
         let l:linestart = substitute (getline (l:line), '^\(\s*\).*', '\1', "")
-        let l:linekey   = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\(\S\{0,1}=\S\{0,1\}\)\s\(.*\)$', '\1', "")
-        let l:linesep   = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\(\S\{0,1}=\S\{0,1\}\)\s\(.*\)$', '\2', "")
-        let l:linevalue = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\(\S\{0,1}=\S\{0,1\}\)\s\(.*\)$', '\3', "")
+        let l:linekey   = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\(\S\{0,1}=\S\{0,1\}\)\s*\(.*\)$', '\1', "")
+        let l:linesep   = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\(\S\{0,1}=\S\{0,1\}\)\s*\(.*\)$', '\2', "")
+        let l:linevalue = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\(\S\{0,1}=\S\{0,1\}\)\s*\(.*\)$', '\3', "")
 
         let l:newline = printf (l:format, l:linestart, l:linekey, l:linesep, l:linevalue)
         call setline (l:line, l:newline)
@@ -181,26 +78,3 @@ func! PhpAlign() range
 endfunc
 
 " }}}   
-
-function! s:CreateNMap(target, combo)
-    if !hasmapto(a:target, 'n')
-        exec 'nmap ' . a:combo . ' ' . a:target
-    endif
-endfunction
-
-function! s:CreateVMap(target, combo)
-    if !hasmapto(a:target, 'v')
-        exec 'vmap ' . a:combo . ' ' . a:target
-    endif
-endfunction
-
-function! s:CreateMaps(target, combo)
-	call s:CreateNMap(a:target,a:combo)
-	call s:CreateVMap(a:target,a:combo)
-endfunction
-
-if g:PIVCreateDefaultMappings
-    call s:CreateNMap('<plug>PIVphpDocSingle', 		   ',pd')
-    call s:CreateVMap('<plug>PIVphpDocRange',     	   ',pd')
-    call s:CreateMaps('<plug>PIVphpAlign ', 		   ',pa')
-endif

@@ -26,7 +26,8 @@ set ruler
 " Modifies the ruler. Looks nicer this way.
 set laststatus=2 
 
-" Set the status line
+" Set the status line. Includes information about the current file,
+" linenumber, column number, the buffernumber of the file
 set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
 
 " Insert 4 spaces for one tab
@@ -46,7 +47,7 @@ set backspace=start,indent,eol
 set incsearch " Starts searching as soon as you start typing 
 set hlsearch " Highlights search results
 
-" Start again from the beginning of the file if EOF is hit. Default is true,
+" When searching, we want to start again from the beginning of the file if EOF is hit. Default is true,
 " but we still specify it here.
 set wrapscan
 
@@ -57,7 +58,7 @@ set smartcase  " ... except when there are capital letters contained in the sear
 set wildmenu
 set wildignore=*~           " Ignore backup files.
 
-" Keeps more info in history. Default is by the way 20.
+" Keeps more info in history. Default is 20.
 set history=1000
 
 " While commenting, new lines will not be commented
@@ -78,7 +79,7 @@ set sidescrolloff=7
 filetype on
 filetype plugin on
 
-" Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory "
+" Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
 set backupdir=$HOME/.vim/backup
 set directory=$HOME/.vim/backup
 
