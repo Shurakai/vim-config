@@ -88,6 +88,9 @@ set directory=$HOME/.vim/backup
 " buffer
 set hidden
 
+" Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
+autocmd BufWritePre * :%s/\s\+$//e
+
 "
 " This section is used for window navigation. I didn't write it myself but
 " took it from
