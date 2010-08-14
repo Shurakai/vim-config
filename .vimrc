@@ -45,7 +45,8 @@ set expandtab
 set backspace=start,indent,eol
 
 set incsearch " Starts searching as soon as you start typing 
-set hlsearch " Highlights search results
+set hlsearch  " Highlights search results
+set gdefault  " Assumes the /g modifier is set by default. This means that ALL found matches will be replaced
 
 " When searching, we want to start again from the beginning of the file if EOF is hit. Default is true,
 " but we still specify it here.
@@ -151,6 +152,7 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 "
 " Map <CTRL-n> to NerdTree
 map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
 
 " Sparkup must be remapped (defaults to CTRL+n)
 let g:sparkupNextMapping = '<c-y>'
