@@ -5,7 +5,7 @@ set nocompatible
 
 " The default colorscheme is the wombat colorscheme, but if we're running VIM inside a terminal,
 " we need to make sure that we're using the 256 colors version
-if !has("gui_running") 
+if !has("gui_running")
     " Set vim to 256 colors
     set t_Co=256
     colorscheme wombat256-custom
@@ -13,7 +13,7 @@ else
     colorscheme wombat
 endif
 
-" display line numbers 
+" display line numbers
 set nu
 
 " shows partial commands, i.e. commands that have not yet been executed
@@ -24,7 +24,7 @@ set showcmd
 set ruler
 
 " Modifies the ruler. Looks nicer this way.
-set laststatus=2 
+set laststatus=2
 
 " Set the status line. Includes information about the current file,
 " linenumber, column number, the buffernumber of the file
@@ -44,7 +44,7 @@ set expandtab
 " Allows us to use backspace on (nearly) everything
 set backspace=start,indent,eol
 
-set incsearch " Starts searching as soon as you start typing 
+set incsearch " Starts searching as soon as you start typing
 set hlsearch  " Highlights search results
 set gdefault  " Assumes the /g modifier is set by default. This means that ALL found matches will be replaced
 
@@ -74,6 +74,8 @@ set formatoptions-=o
 " current window or 7 lines away from the side
 set scrolloff    =8
 set sidescrolloff=7
+
+set lazyredraw " Deactivates the redrawing during execution of macros and thus speeds up the execution!"
 
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
