@@ -3,6 +3,9 @@
 " side effect as well.
 set nocompatible
 
+" Set the mapleader to , - we define this here because it will have effect on every occurrence of <Leader>
+let mapleader = ','
+
 " The default colorscheme is the wombat colorscheme, but if we're running VIM inside a terminal,
 " we need to make sure that we're using the 256 colors version
 if !has("gui_running")
@@ -80,6 +83,7 @@ set lazyredraw " Deactivates the redrawing during execution of macros and thus s
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype on
+filetype indent on " Indent, but be aware to the language we're currently working in
 filetype plugin on
 
 " Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
