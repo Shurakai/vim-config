@@ -184,6 +184,11 @@ inoremap <silent> <C-H> <C-0>:nohls<CR>
 " Swap current word with the next, but make cursor stay on current position
 :nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
 
+" Configure XPTemplates
+" Disable spaces between brackets. Results in () instead of (  ).
+" See http://code.google.com/p/xptemplate/wiki/FAQ#Do_NOT_like_spaces_in_auto-completed_brackets/braces
+let g:xptemplate_vars = "SParg="
+
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
 let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited gets closed
