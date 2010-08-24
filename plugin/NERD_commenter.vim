@@ -3078,7 +3078,7 @@ if g:NERDCreateDefaultMappings
     call s:CreateMaps('<plug>NERDCommenterSexy',       ',cs')
     call s:CreateMaps('<plug>NERDCommenterInvert',     ',ci')
     call s:CreateMaps('<plug>NERDCommenterYank',       ',cy')
-    call s:CreateMaps('<plug>NERDCommenterAlignLeft',  ',cl')
+"    call s:CreateMaps('<plug>NERDCommenterAlignLeft',  ',cl')
     call s:CreateMaps('<plug>NERDCommenterAlignBoth',  ',cb')
     call s:CreateMaps('<plug>NERDCommenterNest',       ',cn')
     call s:CreateMaps('<plug>NERDCommenterUncomment',  ',cu')
