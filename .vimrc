@@ -83,7 +83,7 @@ set lazyredraw " Deactivates the redrawing during execution of macros and thus s
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype on
-filetype indent on " Indent, but be aware to the language we're currently working in
+""filetype indent on " Indent, but be aware to the language we're currently working in
 filetype plugin on
 
 " Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
@@ -143,6 +143,10 @@ noremap <silent> ,mh <C-W>H
 " Move the current window to the bottom of the main Vim window
 noremap <silent> ,mj <C-W>J
 
+" Cycle between buffers easily
+noremap <silent> ,bn <C-I>
+noremap <silent> ,bp <C-O>
+
 " AutoCompletion, depending on the filetype.
 " Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
 " complete things like classnames, variables etc.
@@ -188,6 +192,8 @@ inoremap <silent> <C-H> <C-0>:nohls<CR>
 " Disable spaces between brackets. Results in () instead of (  ).
 " See http://code.google.com/p/xptemplate/wiki/FAQ#Do_NOT_like_spaces_in_auto-completed_brackets/braces
 let g:xptemplate_vars = "SParg="
+let g:xptemplate_vars = g:xptemplate_vars . "&$author=Christian Heinrich"
+let g:xptemplate_vars = g:xptemplate_vars . "&$email=christian.heinrich@livando.com"
 
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
