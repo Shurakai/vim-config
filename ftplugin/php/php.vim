@@ -15,6 +15,15 @@ let php_folding           = 1 " Enable folding?
 let php_sync_method       = -1 " -1 mean sync by search
 
 let PHP_autoformatcomment = 1
+
+" We want VIM to remember for each file where our cursor had been when we left the buffer
+"Automatically save view information about
+" each file that is edited and restore the
+" settings (persists between VIM invocations.)
+au BufWinLeave *.php,*.phtml mkview
+au BufWinEnter *.php,*.phtml silent loadview
+
+
 " Correct indentation after opening a phpdocblock and automatic * on every
 " line
 setlocal formatoptions=qroct
@@ -35,7 +44,7 @@ inoremap <buffer> <C-H> <ESC>:!phpm <C-R>=expand("<cword>")<CR><CR>
 
 " {{{ Alignment
 " Allows to align variables correctly.
-" This function has been taken from Tobias Schlitt's original PDV 
+" This function has been taken from Tobias Schlitt's original PDV
 
 func! PhpAlign() range
     let l:paste = &g:paste
@@ -51,15 +60,15 @@ func! PhpAlign() range
 			continue
 		endif
 		" \{-\} matches ungreed *
-        let l:index = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\S\{0,1}=\S\{0,1\}\s*.*$', '\1', "") 
+        let l:index = substitute (getline (l:line), '^\s*\(.\{-\}\)\s*\S\{0,1}=\S\{0,1\}\s*.*$', '\1', "")
         let l:indexlength = strlen (l:index)
         let l:maxlength = l:indexlength > l:maxlength ? l:indexlength : l:maxlength
         let l:line = l:line + 1
     endwhile
-    
+
 	let l:line = a:firstline
 	let l:format = "%s%-" . l:maxlength . "s %s %s"
-    
+
 	while l:line <= l:endline
 		if getline (l:line) =~ '^\s*\/\/.*$'
 			let l:line = l:line + 1
@@ -77,4 +86,4 @@ func! PhpAlign() range
     let &g:paste = l:paste
 endfunc
 
-" }}}   
+" }}}
