@@ -33,6 +33,14 @@ set laststatus=2
 " linenumber, column number, the buffernumber of the file
 set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
 
+" Add the git repository branch we're currently working in. This option makes
+" use of the fugitive plugin by Tim Pope
+set statusline +=\ \ \ %{fugitive#statusline()}
+
+" Set the vim current directory to be the directory
+" that the file in the current buffer is in.
+autocmd BufEnter * :lcd %:p:h
+
 " Insert 4 spaces for one tab
 set tabstop=4
 
@@ -194,6 +202,11 @@ inoremap <silent> <C-H> <C-0>:nohls<CR>
 let g:xptemplate_vars = "SParg="
 let g:xptemplate_vars = g:xptemplate_vars . "&$author=Christian Heinrich"
 let g:xptemplate_vars = g:xptemplate_vars . "&$email=christian.heinrich@livando.com"
+
+" Configuration for the indexer plugin.
+" This plugin indexes files automatically with ctags.
+let g:indexer_indexerListFilename = $HOME.'/.vim/personal/.indexer_files'
+let g:indexer_tagsDirname         = $HOME.'/.vim/mytags'
 
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
