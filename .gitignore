@@ -1,5 +1,7 @@
 mysessions/*
 mytags/*
 backup/*
+personal/.indexer_files
+view/*
 .VimballRecord
 .netrwhist
