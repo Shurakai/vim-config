@@ -86,7 +86,11 @@ set formatoptions-=o
 set scrolloff    =8
 set sidescrolloff=7
 
-set lazyredraw " Deactivates the redrawing during execution of macros and thus speeds up the execution!"
+set lazyredraw " Deactivates the redrawing during execution of macros and thus speeds up the execution!
+
+" We want to have the default completion features including the syntax
+" completion (k)
+set complete=.,w,b,u,t,i,k
 
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
@@ -213,3 +217,6 @@ let Tlist_Use_Right_Window = 1           " Moves window to the right
 let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited gets closed
 let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when its opened
 let Tlist_File_Fold_Auto_Close = 1
+
+" SuperTab configuration
+let g:SuperTabDefaultCompletionType = "<C-X><C-O>"

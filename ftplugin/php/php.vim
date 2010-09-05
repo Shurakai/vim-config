@@ -23,6 +23,8 @@ let PHP_autoformatcomment = 1
 au BufWinLeave *.php,*.phtml mkview
 au BufWinEnter *.php,*.phtml silent loadview
 
+set complete=.,w,b,u,t,i,k
+autocmd FileType * exec('setlocal dict+=~/.vim/syntax/php.vim')
 
 " Correct indentation after opening a phpdocblock and automatic * on every
 " line
@@ -42,7 +44,6 @@ map ,pa <plug>PIVphpAlign <cr>
 " Map <CTRL>-H to search phpm for the function name currently under the cursor (insert mode only)
 inoremap <buffer> <C-H> <ESC>:!phpm <C-R>=expand("<cword>")<CR><CR>
 
-" {{{ Alignment
 " Allows to align variables correctly.
 " This function has been taken from Tobias Schlitt's original PDV
 
@@ -85,5 +86,3 @@ func! PhpAlign() range
     endwhile
     let &g:paste = l:paste
 endfunc
-
-" }}}
