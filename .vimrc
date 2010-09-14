@@ -13,6 +13,13 @@ if !has("gui_running")
     set t_Co=256
     colorscheme wombat256-custom
 else
+    " Disable menus and toolbar
+    set guioptions-=t
+    set guioptions-=T
+    set guioptions-=m
+    set guioptions+=M
+
+    " Set colorscheme
     colorscheme wombat
 endif
 
@@ -71,7 +78,7 @@ set wildmenu
 set wildignore=*~           " Ignore backup files.
 
 " Keeps more info in history. Default is 20.
-set history=1000
+set history=200
 
 " While commenting, new lines will not be commented
 set formatoptions-=o
