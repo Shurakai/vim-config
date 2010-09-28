@@ -166,6 +166,9 @@ noremap <silent> ,mj <C-W>J
 noremap <silent> ,bn <C-I>
 noremap <silent> ,bp <C-O>
 
+" Quit insert mode quickly!
+inoremap jj <ESC>
+
 " AutoCompletion, depending on the filetype.
 " Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
 " complete things like classnames, variables etc.
