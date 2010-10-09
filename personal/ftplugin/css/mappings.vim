@@ -2,8 +2,10 @@
 map <leader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 
 function SortCss()
-   exe "normal gg"
-   exe "/\{<CR>"
-   exe "normal ,S"
-   exe "normal n"
+   for i in range(line("1"), line("$"))
+       exe "/{"
+       exe "silent! normal j,S"
+   endfor
 endfunction
+
+command SortFile call SortCss()
