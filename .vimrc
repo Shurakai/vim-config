@@ -101,7 +101,10 @@ set complete=.,w,b,u,t,i,k
 
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
-filetype on
+filetype off
+call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
+
 ""filetype indent on " Indent, but be aware to the language we're currently working in
 filetype plugin on
 
@@ -109,13 +112,24 @@ filetype plugin on
 set backupdir=$HOME/.vim/backup
 set directory=$HOME/.vim/backup
 
-" Allows us to change buffers before they were saved. This is okay because VIM
+" Allows us to change buffers without having them saved. This is okay because VIM
 " will force us to use something like :qa! to quit VIM if there is an unsaved
 " buffer
 set hidden
 
+" vimcasts #24
+" Auto-reload vimrc on save
+if has("autocmd")
+    autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+" Load vimrc in new tab with <Leader>-v
+nmap <leader>ve :tabedit $MYVIMRC<CR>
+
 " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
 autocmd BufWritePre * :%s/\s\+$//e
+
+" "sudo" save
+:cmap w!! w !sudo tee % > /dev/null
 
 "
 " This section is used for window navigation. I didn't write it myself but
@@ -170,6 +184,8 @@ noremap <silent> ,bp <C-O>
 inoremap jj <ESC>
 
 " AutoCompletion, depending on the filetype.
+
+
 " Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
 " complete things like classnames, variables etc.
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -209,6 +225,9 @@ inoremap <silent> <C-H> <C-0>:nohls<CR>
 
 " Swap current word with the next, but make cursor stay on current position
 :nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
+
+" Mapping for the plugin "ArgumentRewrap"
+nnoremap <silent> <leader>r :call argumentrewrap#RewrapArguments()<CR>
 
 " Configure XPTemplates
 " Disable spaces between brackets. Results in () instead of (  ).

@@ -1,0 +1,39 @@
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "bundle/vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "bundle/xptemplate"]
+	path = bundle/xptemplate
+	url = git://github.com/drmingdrmer/xptemplate-dist.git
+[submodule "bundle/nerdcommenter"]
+	path = bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/phpcomplete"]
+	path = bundle/phpcomplete
+	url = git://github.com/vim-scripts/phpcomplete.vim.git
+[submodule "bundle/debugger"]
+	path = bundle/debugger
+	url = git://github.com/vim-scripts/debugger.py.git
+[submodule "bundle/matchit"]
+	path = bundle/matchit
+	url = git://github.com/vim-scripts/matchit.zip.git
+[submodule "bundle/precisejump"]
+	path = bundle/precisejump
+	url = git://github.com/vim-scripts/PreciseJump.git
+[submodule "bundle/gundo"]
+	path = bundle/gundo
+	url = git://github.com/vim-scripts/Gundo.git
+[submodule "bundle/argumentrewrap"]
+	path = bundle/argumentrewrap
+	url = git://github.com/jakobwesthoff/argumentrewrap.git
+[submodule "bundle/vim-sparkup"]
+	path = bundle/vim-sparkup
+	url = git://github.com/bingaman/vim-sparkup.git

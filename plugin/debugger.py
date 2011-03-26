@@ -520,6 +520,17 @@ class DebugUI:
   def set_srcview(self, file, line):
     """ set srcview windows to file:line and replace current sign """
 
+    import re
+    map_sep = re.compile(',\s*')
+    path_sep = re.compile('\s*:\s*')
+    mappings = map_sep.split(vim.eval('pathMap'))
+    print mappings
+    if mappings:
+      for mapping in mappings:
+         (remote_path, local_path) = path_sep.split(mapping)
+         path_map = re.compile('(' + remote_path + ')')
+         file = path_map.sub(local_path, file)
+
     if file == self.file and self.line == line:
       return
 

@@ -264,7 +264,11 @@ call <SID>X("WarningMsg",	"ff0000",	"",			"")
 			"DiffAdd
 			"DiffChange
 			"DiffDelete
-			"DiffText
+
+call <SID>X("DiffAdd",	"ffffff", "008700",	"bold")
+highlight DiffChange term=reverse cterm=bold ctermbg=cyan ctermfg=black
+highlight DiffText term=reverse cterm=bold ctermbg=gray ctermfg=black
+highlight DiffDelete term=reverse cterm=bold ctermbg=red ctermfg=black
 
 " syntax highlighting
 call <SID>X("Number",		"e5786d",	"",			"none")
