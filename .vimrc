@@ -138,47 +138,47 @@ autocmd BufWritePre * :%s/\s\+$//e
 "
 
 " Move the cursor to the window left of the current one
-noremap <silent> ,h :wincmd h<cr>
+noremap <silent> <leader>h :wincmd h<cr>
 
 " Move the cursor to the window below the current one
-noremap <silent> ,j :wincmd j<cr>
+noremap <silent> <leader>j :wincmd j<cr>
 
 " Move the cursor to the window above the current one
-noremap <silent> ,k :wincmd k<cr>
+noremap <silent> <leader>k :wincmd k<cr>
 
 " Move the cursor to the window right of the current one
-noremap <silent> ,l :wincmd l<cr>
+noremap <silent> <leader>l :wincmd l<cr>
 
 " Close the window below this one
-noremap <silent> ,cj :wincmd j<cr>:close<cr>
+noremap <silent> <leader>cj :wincmd j<cr>:close<cr>
 
 " Close the window above this one
-noremap <silent> ,ck :wincmd k<cr>:close<cr>
+noremap <silent> <leader>ck :wincmd k<cr>:close<cr>
 
 " Close the window to the left of this one
-noremap <silent> ,ch :wincmd h<cr>:close<cr>
+noremap <silent> <leader>ch :wincmd h<cr>:close<cr>
 
 " Close the window to the right of this one
-noremap <silent> ,cl :wincmd l<cr>:close<cr>
+noremap <silent> <leader>cl :wincmd l<cr>:close<cr>
 
 " Close the current window
-noremap <silent> ,cc :close<cr>
+noremap <silent> <leader>cc :close<cr>
 
 " Move the current window to the right of the main Vim window
-noremap <silent> ,ml <C-W>L
+noremap <silent> <leader>ml <C-W>L
 
 " Move the current window to the top of the main Vim window
-noremap <silent> ,mk <C-W>K
+noremap <silent> <leader>mk <C-W>K
 
 " Move the current window to the left of the main Vim window
-noremap <silent> ,mh <C-W>H
+noremap <silent> <leader>mh <C-W>H
 
 " Move the current window to the bottom of the main Vim window
-noremap <silent> ,mj <C-W>J
+noremap <silent> <leader>mj <C-W>J
 
 " Cycle between buffers easily
-noremap <silent> ,bn <C-I>
-noremap <silent> ,bp <C-O>
+noremap <silent> <leader>bn <C-I>
+noremap <silent> <leader>bp <C-O>
 
 " Quit insert mode quickly!
 inoremap jj <ESC>
