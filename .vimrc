@@ -183,6 +183,11 @@ noremap <silent> <leader>bp <C-O>
 " Quit insert mode quickly!
 inoremap jj <ESC>
 
+" Search in parent directories for tag files. This is necessary as
+" the pwd will change to the currently used buffer.
+" Note the trailing semicolon (;) - this is what tells vim to go up to root!
+set tags+=tags;
+
 " AutoCompletion, depending on the filetype.
 
 
@@ -239,7 +244,7 @@ let g:xptemplate_vars = g:xptemplate_vars . "&$email=christian.heinrich@livando.
 " Configuration for the indexer plugin.
 " This plugin indexes files automatically with ctags.
 let g:indexer_indexerListFilename = $HOME.'/.vim/personal/.indexer_files'
-let g:indexer_tagsDirname         = $HOME.'/.vim/mytags'
+let g:indexer_tagsDirname         = $HOME.'/.vim/tags'
 
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
@@ -247,5 +252,3 @@ let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited ge
 let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when its opened
 let Tlist_File_Fold_Auto_Close = 1
 
-" SuperTab configuration
-let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
