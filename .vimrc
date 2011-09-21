@@ -123,7 +123,7 @@ if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 " Load vimrc in new tab with <Leader>-v
-nmap <leader>ve :tabedit $MYVIMRC<CR>
+noremap <leader>ve :tabedit $MYVIMRC<CR>
 
 " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
 autocmd BufWritePre * :%s/\s\+$//e
