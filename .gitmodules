@@ -37,3 +37,21 @@
 [submodule "bundle/vim-sparkup"]
 	path = bundle/vim-sparkup
 	url = git://github.com/bingaman/vim-sparkup.git
+[submodule "bundle/vim-taglist"]
+	path = bundle/vim-taglist
+	url = git://github.com/vim-scripts/taglist.vim.git
+[submodule "bundle/easytags"]
+	path = bundle/easytags
+	url = http://github.com/xolox/vim-easytags
+[submodule "bundle/indexer.tar.gz"]
+	path = bundle/indexer.tar.gz
+	url = git://github.com/vim-scripts/indexer.tar.gz.git
+[submodule "bundle/Align"]
+	path = bundle/Align
+	url = git://github.com/vim-scripts/Align.git
+[submodule "bundle/latex-suite"]
+	path = bundle/latex-suite
+	url = git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
+[submodule "bundle/latex-suite2"]
+	path = bundle/latex-suite2
+	url = git://github.com/vim-scripts/LaTeX-Suite-aka-Vim-LaTeX.git
