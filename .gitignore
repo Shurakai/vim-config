@@ -3,5 +3,6 @@ mytags/*
 backup/*
 personal/.indexer_files
 view/*
+tags/*
 .VimballRecord
 .netrwhist
