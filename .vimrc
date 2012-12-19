@@ -180,6 +180,9 @@ noremap <silent> <leader>mj <C-W>J
 noremap <silent> <leader>bn <C-I>
 noremap <silent> <leader>bp <C-O>
 
+"Delete current buffer
+noremap <silent> <leader>bd :bd<cr>
+
 " Quit insert mode quickly!
 inoremap jj <ESC>
 
