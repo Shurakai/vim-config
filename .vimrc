@@ -226,10 +226,10 @@ map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
 nnoremap <silent> <C-H> :nohls<CR><C-H>
 inoremap <silent> <C-H> <C-0>:nohls<CR>
 
-" Swap current word with next word (gw) or with previous word (gl)
+" Transpose current word with next word (tn) or with previous word (tp)
 " This version will work across newlines:
-:nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
-:nnoremap <silent> gl "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+:nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+:nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
 
 " Swap current word with the next, but make cursor stay on current position
 :nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
