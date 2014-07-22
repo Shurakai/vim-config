@@ -130,6 +130,25 @@ Plugin 'tpope/vim-surround'
 
 Plugin 'tpope/vim-repeat'
 
+" This is an awesome plugin that allows you to easily jump to any
+" location. Make sure you read the documentation at
+" https://github.com/Lokaltog/vim-easymotion
+"
+" Default binding: <Leader><Leader>s ("search"), but you can use
+" f (search-forward) or F, w etc. as well! (Even multi-letter
+" bindings are possible, see docs)
+Plugin 'Lokaltog/vim-easymotion'
+
+" This is a syntax checker. For supported languages
+" and which binaries are expected for syntastic to work,
+" visit https://github.com/scrooloose/syntastic
+Plugin 'scrooloose/syntastic'
+
+" Use % to go to next match, for instance on HTML tags or to jump
+" to the next else if ...
+" Use g% to go back up.
+Plugin 'vim-scripts/matchit.zip'
+
 ""filetype indent on " Indent, but be aware to the language we're currently working in
 filetype plugin indent on
 
