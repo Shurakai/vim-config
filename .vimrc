@@ -42,7 +42,7 @@ set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
 
 " Add the git repository branch we're currently working in. This option makes
 " use of the fugitive plugin by Tim Pope
-set statusline +=\ \ \ %{fugitive#statusline()}
+"set statusline +=\ \ \ %{fugitive#statusline()}
 
 " Set the vim current directory to be the directory
 " that the file in the current buffer is in.
@@ -102,11 +102,36 @@ set complete=.,w,b,u,t,i,k
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype off
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
+"call pathogen#helptags()
+"call pathogen#runtime_append_all_bundles()
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Vundle package must be managed by vundle :)
+Plugin 'gmarik/vundle'
+
+" NerdTree is really useful and absolutely needed
+Plugin 'scrooloose/nerdtree.git'
+
+" The VIM Latex-Suite plugin is very useful - the version
+" I use here is NOT the original version, though.
+Plugin 'gerw/vim-latex-suite'
+
+Plugin 'vim-scripts/Align'
+
+Plugin 'scrooloose/nerdcommenter'
+
+Plugin 'drmingdrmer/xptemplate-dist'
+
+Plugin 'bingaman/vim-sparkup'
+
+Plugin 'tpope/vim-surround'
+
+Plugin 'tpope/vim-repeat'
 
 ""filetype indent on " Indent, but be aware to the language we're currently working in
-filetype plugin on
+filetype plugin indent on
 
 " Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
 set backupdir=$HOME/.vim/backup
@@ -246,8 +271,8 @@ let g:xptemplate_vars = g:xptemplate_vars . "&$email=christian.heinrich@livando.
 
 " Configuration for the indexer plugin.
 " This plugin indexes files automatically with ctags.
-let g:indexer_indexerListFilename = $HOME.'/.vim/personal/.indexer_files'
-let g:indexer_tagsDirname         = $HOME.'/.vim/tags'
+"let g:indexer_indexerListFilename = $HOME.'/.vim/personal/.indexer_files'
+"let g:indexer_tagsDirname         = $HOME.'/.vim/tags'
 
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
