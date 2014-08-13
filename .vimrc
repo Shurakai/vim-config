@@ -85,6 +85,7 @@ set formatoptions-=o
 
 " These commands open folds
 "set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+set foldmethod=marker
 "set foldmethod=indent       " Folds will be calculated on indentation
 "set foldnestmax=3           " Don't fold deeper than 3 levels
 
@@ -108,6 +109,7 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" {{{1
 " Vundle package must be managed by vundle :)
 Plugin 'gmarik/vundle'
 
@@ -149,7 +151,19 @@ Plugin 'scrooloose/syntastic'
 " Use g% to go back up.
 Plugin 'vim-scripts/matchit.zip'
 
-""filetype indent on " Indent, but be aware to the language we're currently working in
+" Provides a thesaurus.
+" Standard binding: <leader>K
+" Can be changed by binding :OnlineThesaurusCurrentWord
+Plugin 'beloglazov/vim-online-thesaurus'
+
+" Provides graphical undo trees.
+" To read more about vims (non-graphical) undo trees,
+" see :h undo-redo
+Plugin 'https://github.com/sjl/gundo.vim'
+
+"}}}1
+
+""filetype indent on " Indent, but be aware of the language we're currently working in
 filetype plugin indent on
 
 " Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
@@ -257,9 +271,6 @@ let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
 " Sparkup must be remapped (defaults to CTRL+n)
 let g:sparkupNextMapping = '<c-y>'
 
-" Map the TlistToggle Command to CTRL+l
-nmap <C-l> :TlistToggle<CR>
-
 " Maps shortcuts for sessions. We want to save and load sessions easily,
 " because they're very helpful with quickly re-initializing projects.
 map <Home> :source ~/.vim/mysessions/
@@ -298,4 +309,4 @@ let Tlist_Use_Right_Window = 1           " Moves window to the right
 let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited gets closed
 let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when its opened
 let Tlist_File_Fold_Auto_Close = 1
-
+nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
