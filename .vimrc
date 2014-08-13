@@ -167,8 +167,9 @@ Plugin 'https://github.com/sjl/gundo.vim'
 filetype plugin indent on
 
 " Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
-set backupdir=$HOME/.vim/backup
-set directory=$HOME/.vim/backup
+set backupdir=$HOME/.vim/backup//
+set directory=$HOME/.vim/swap//
+set undodir=$HOME/.vim/undo//
 
 " Allows us to change buffers without having them saved. This is okay because VIM
 " will force us to use something like :qa! to quit VIM if there is an unsaved
