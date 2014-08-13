@@ -100,6 +100,19 @@ set lazyredraw " Deactivates the redrawing during execution of macros and thus s
 " completion (k)
 set complete=.,w,b,u,t,i,k
 
+" Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
+set backupdir=$HOME/.vim/backup//
+set directory=$HOME/.vim/swap//
+set undodir=$HOME/.vim/undo//
+
+" Allows us to change buffers without having them saved. This is okay because VIM
+" will force us to use something like :qa! to quit VIM if there is an unsaved
+" buffer
+set hidden
+
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype off
@@ -165,16 +178,6 @@ Plugin 'https://github.com/sjl/gundo.vim'
 
 ""filetype indent on " Indent, but be aware of the language we're currently working in
 filetype plugin indent on
-
-" Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
-set backupdir=$HOME/.vim/backup//
-set directory=$HOME/.vim/swap//
-set undodir=$HOME/.vim/undo//
-
-" Allows us to change buffers without having them saved. This is okay because VIM
-" will force us to use something like :qa! to quit VIM if there is an unsaved
-" buffer
-set hidden
 
 " vimcasts #24
 " Auto-reload vimrc on save
