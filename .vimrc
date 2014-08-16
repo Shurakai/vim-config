@@ -1,11 +1,23 @@
+" System settings {{{1
 " no compliance mode - gives us the full feature set of vim
 " Must be at top, because other options will be changed as a
 " side effect as well.
 set nocompatible
-
+set hidden          " Hidden buffers
+set lazyredraw      " Deactivates the redrawing during execution of macros and thus speeds up the execution!
+set confirm         " displays a dialog when :q, :w etc. fail
+set wildmenu        " improves the menu when pressing "tab" in the command line
+set wildignore=*~   " Ignore backup files.
+set history=200     " Keeps more info in history. Default is 20.
+" Don't write the backupfiles everywhere,
+" but put them into the ~/.vim/backup/ directory
+set backupdir=$HOME/.vim/backup//
+set directory=$HOME/.vim/swap//
+set undodir=$HOME/.vim/undo//
 " Set the mapleader to , - we define this here because it will have effect on every occurrence of <Leader>
 let mapleader = ','
 
+" Appearance {{{1
 " The default colorscheme is the wombat colorscheme, but if we're running VIM inside a terminal,
 " we need to make sure that we're using the 256 colors version
 if !has("gui_running")
@@ -23,96 +35,93 @@ else
     colorscheme wombat
 endif
 
-" display line numbers
-set nu
-
-" shows partial commands, i.e. commands that have not yet been executed
-" via pressing the enter key. can be found next to the ruler
-set showcmd
-
-" Line & column number
-set ruler
-
-" Modifies the ruler. Looks nicer this way.
-set laststatus=2
+set nu           " display line numbers
+set ruler        " Line & column number
+set laststatus=2 " Modifies the ruler. Looks nicer this way.
+set cursorline   " Highlights current cursorline with a different bg
+set showcmd      " shows partial commands can be found next to the ruler
+" Start scrolling the window when we're 8 lines away from the border of the
+" current window or 7 lines away from the side
+set scrolloff    =8
+set sidescrolloff=7
 
 " Set the status line. Includes information about the current file,
 " linenumber, column number, the buffernumber of the file
 set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
 
-" Add the git repository branch we're currently working in. This option makes
-" use of the fugitive plugin by Tim Pope
-"set statusline +=\ \ \ %{fugitive#statusline()}
-
-" Set the vim current directory to be the directory
-" that the file in the current buffer is in.
-autocmd BufEnter * :lcd %:p:h
-
-" Insert 4 spaces for one tab
-set tabstop=4
+" Editing & Spelling {{{1
+set formatoptions-=o " While commenting, new lines (o/O) will not be commented
+set tabstop=4 " Insert 4 spaces for one tab
 
 " When opening a new line and no filetype-specific indenting is enabled, keep
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
 set shiftwidth=4
+set expandtab       " Uses spaces instead of tabs
+set backspace=start,indent,eol " Allows us to use backspace on (nearly) everything
 
-" Uses spaces instead of tabs
-set expandtab
-
-" Allows us to use backspace on (nearly) everything
-set backspace=start,indent,eol
-
-set incsearch " Starts searching as soon as you start typing
-set hlsearch  " Highlights search results
 set gdefault  " Assumes the /g modifier is set by default. This means that ALL found matches will be replaced
 
-" When searching, we want to start again from the beginning of the file if EOF is hit. Default is true,
-" but we still specify it here.
-set wrapscan
+set pastetoggle=<F8> " Press F8 while in insert mode will toggle paste modes
 
+" Add the git repository branch we're currently working in. This option makes
+" use of the fugitive plugin by Tim Pope
+"set statusline +=\ \ \ %{fugitive#statusline()}
+
+" Spelling {{{2
+"
+" You may see an error that reads "Word characters differ between spell
+" files." In that case, delete all files in /usr/share/vim/vim73/spell/
+" that end on *.spl. I just deleted all english files - vim will then
+" prompt you to download again, which is fine. This is due to some updates
+" to the files. See the DevList:
+" https://groups.google.com/d/topic/vim_dev/7HTs6kIKnPQ/discussion
+set spelllang=en_us,de_20 "de_20 is "only new spelling"
+
+" Search {{{1
+set wrapscan   " Search from the beginning if EOF is hit
+set incsearch  " Starts searching as soon as you start typing
+set hlsearch   " Highlights search results
 set ignorecase " Use case insensitive search...
 set smartcase  " ... except when there are capital letters contained in the search string
 
-" improves the menu when pressing "tab" in the command line
-set wildmenu
-set wildignore=*~           " Ignore backup files.
-
-" Keeps more info in history. Default is 20.
-set history=200
-
-" While commenting, new lines will not be commented
-set formatoptions-=o
-
+" Folds {{{1
 " These commands open folds
 "set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=marker
 "set foldmethod=indent       " Folds will be calculated on indentation
 "set foldnestmax=3           " Don't fold deeper than 3 levels
 
-" Start scrolling the window when we're 8 lines away from the border of the
-" current window or 7 lines away from the side
-set scrolloff    =8
-set sidescrolloff=7
-
-set lazyredraw " Deactivates the redrawing during execution of macros and thus speeds up the execution!
 
 " We want to have the default completion features including the syntax
 " completion (k)
 set complete=.,w,b,u,t,i,k
 
-" Don't write the backupfiles everywhere, but put them into the ~/.vim/backup/ directory
-set backupdir=$HOME/.vim/backup//
-set directory=$HOME/.vim/swap//
-set undodir=$HOME/.vim/undo//
 
-" Allows us to change buffers without having them saved. This is okay because VIM
-" will force us to use something like :qa! to quit VIM if there is an unsaved
-" buffer
-set hidden
 
+" Shows a marker if the line is longer than 80 columns
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100)
 
+" This shows special characters for trailing whitespaces and tabs.
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set list
+
+" Mappings for hlsearch {{{1
+" This rewires n and N to do the highlighing...
+nnoremap <silent> n   n:call HLNext(0.4)<cr>
+nnoremap <silent> N   N:call HLNext(0.4)<cr>
+
+" EITHER blink the line containing the match...
+function! HLNext (blinktime)
+    set invcursorline
+    redraw
+    exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+    set invcursorline
+    redraw
+endfunction
+
+" Vundle Configuration {{{1
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype off
@@ -122,7 +131,6 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" {{{1
 " Vundle package must be managed by vundle :)
 Plugin 'gmarik/vundle'
 
@@ -174,30 +182,44 @@ Plugin 'beloglazov/vim-online-thesaurus'
 " see :h undo-redo
 Plugin 'https://github.com/sjl/gundo.vim'
 
-"}}}1
-
 ""filetype indent on " Indent, but be aware of the language we're currently working in
 filetype plugin indent on
 
-" vimcasts #24
-" Auto-reload vimrc on save
+"}}}1
+" Dragvisuals Plugin {{{1
+" This is the dragvisuals plugin from Damian Conway, presented at OSCON 2013
+" http://youtu.be/aHm36-na4-4
+" I did not find any 'official' repository, so I'm sourcing it manually.
+" The plugin allows to select a virtual block (or lines) and move them around
+" using the arrow keys.
+runtime plugin/dragvisuals.vim
+
+vmap  <expr>  <LEFT>   DVB_Drag('left')
+vmap  <expr>  <RIGHT>  DVB_Drag('right')
+vmap  <expr>  <DOWN>   DVB_Drag('down')
+vmap  <expr>  <UP>     DVB_Drag('up')
+vmap  <expr>  D        DVB_Duplicate()
+
+" Remove any introduced trailing whitespace after moving...
+let g:DVB_TrimWS = 1
+
 if has("autocmd")
-    autocmd bufwritepost .vimrc source $MYVIMRC
+    autocmd BufEnter * :lcd %:p:h " Set vim directory to dir that contains file
+
+    autocmd bufwritepost .vimrc source $MYVIMRC " Auto-reload vimrc on save
+    " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
+    autocmd BufWritePre * :%s/\s\+$//e
 endif
 " Load vimrc in new tab with <Leader>-v
 noremap <leader>ve :tabedit $MYVIMRC<CR>
 
-" Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
-autocmd BufWritePre * :%s/\s\+$//e
-
 " "sudo" save
 :cmap w!! w !sudo tee % > /dev/null
 
-"
+" Window mappings {{{1
 " This section is used for window navigation. I didn't write it myself but
 " took it from
 " http://www.derekwyatt.org/vim/the-vimrc-file/walking-around-your-windows/ :)
-"
 
 " Move the cursor to the window left of the current one
 noremap <silent> <leader>h :wincmd h<cr>
@@ -245,36 +267,24 @@ noremap <silent> <leader>bp <C-O>
 "Delete current buffer
 noremap <silent> <leader>bd :bd<cr>
 
-" Quit insert mode quickly!
-inoremap jj <ESC>
+" Mappings for editing {{{1
+nnoremap Q gqip " Formats the current paragraph
+nnoremap S i<CR><ESC><left> " Splits lines. Opposite of J
 
-" Search in parent directories for tag files. This is necessary as
-" the pwd will change to the currently used buffer.
-" Note the trailing semicolon (;) - this is what tells vim to go up to root!
-set tags+=tags;
+" Transpose current word with next word (tn) or with previous word (tp)
+" This version will work across newlines:
+:nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+:nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
 
-" AutoCompletion, depending on the filetype.
+" Swap current word with the next, but make cursor stay on current position
+:nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
 
 
-" Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
-" complete things like classnames, variables etc.
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-
-" Mappings
-"
-" Map <CTRL-n> to NerdTree
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
-
-" Sparkup must be remapped (defaults to CTRL+n)
-let g:sparkupNextMapping = '<c-y>'
-
+" Maps ' to ` and the other way round, since I think it's nicer to jump
+" to the precise location of a marker rather than just the line that contains
+" it.
+noremap ' `
+noremap ` '
 " Maps shortcuts for sessions. We want to save and load sessions easily,
 " because they're very helpful with quickly re-initializing projects.
 map <Home> :source ~/.vim/mysessions/
@@ -285,17 +295,39 @@ map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
 nnoremap <silent> <C-H> :nohls<CR><C-H>
 inoremap <silent> <C-H> <C-0>:nohls<CR>
 
-" Transpose current word with next word (tn) or with previous word (tp)
-" This version will work across newlines:
-:nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
-:nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+" {{{1
+" Quit insert mode quickly!
+inoremap jj <ESC>
 
-" Swap current word with the next, but make cursor stay on current position
-:nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
+" Search in parent directories for tag files. This is necessary as
+" the pwd will change to the currently used buffer.
+" Note the trailing semicolon (;) - this is what tells vim to go up to root!
+set tags+=tags;
 
-" Mapping for the plugin "ArgumentRewrap"
+" AutoCompletion, depending on the filetype.
+" Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
+" complete things like classnames, variables etc.
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+
+" Plugin Mappings and Settings {{{1
+
+" NERDTree {{{2
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
+
+" Sparkup {{{2
+let g:sparkupNextMapping = '<c-y>' " Sparkup must be remapped (defaults to CTRL+n)
+
+" ArgumentRewrap {{{2
 nnoremap <silent> <leader>r :call argumentrewrap#RewrapArguments()<CR>
 
+" XPTemplates {{{2
 " Configure XPTemplates
 " Disable spaces between brackets. Results in () instead of (  ).
 " See http://code.google.com/p/xptemplate/wiki/FAQ#Do_NOT_like_spaces_in_auto-completed_brackets/braces
@@ -308,6 +340,7 @@ let g:xptemplate_vars = g:xptemplate_vars . "&$email=christian.heinrich@livando.
 "let g:indexer_indexerListFilename = $HOME.'/.vim/personal/.indexer_files'
 "let g:indexer_tagsDirname         = $HOME.'/.vim/tags'
 
+" Taglist {{{2
 " Configuration for the taglist plugin
 let Tlist_Use_Right_Window = 1           " Moves window to the right
 let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited gets closed
