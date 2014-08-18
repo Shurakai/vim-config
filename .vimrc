@@ -17,6 +17,14 @@ set undodir=$HOME/.vim/undo//
 " Set the mapleader to , - we define this here because it will have effect on every occurrence of <Leader>
 let mapleader = ','
 
+" Basic mappings (movements etc.) {{{1
+
+" It seems much more natural for me to move to the next actual word.
+" However, in the future, this might be set depending on filetypes.
+nnoremap w W
+nnoremap W w
+nnoremap b B
+nnoremap B b
 " Appearance {{{1
 " The default colorscheme is the wombat colorscheme, but if we're running VIM inside a terminal,
 " we need to make sure that we're using the 256 colors version
@@ -64,6 +72,17 @@ set gdefault  " Assumes the /g modifier is set by default. This means that ALL f
 
 set pastetoggle=<F8> " Press F8 while in insert mode will toggle paste modes
 
+" smart indent when entering insert mode with i on empty lines
+" http://mbuffett.com/?p=14
+function! IndentWithI()
+    if len(getline('.')) == 0
+        return "\"_ddO"
+    else
+        return "i"
+    endif
+endfunction
+nnoremap <expr> i IndentWithI()
+
 " Add the git repository branch we're currently working in. This option makes
 " use of the fugitive plugin by Tim Pope
 "set statusline +=\ \ \ %{fugitive#statusline()}
@@ -76,7 +95,8 @@ set pastetoggle=<F8> " Press F8 while in insert mode will toggle paste modes
 " prompt you to download again, which is fine. This is due to some updates
 " to the files. See the DevList:
 " https://groups.google.com/d/topic/vim_dev/7HTs6kIKnPQ/discussion
-set spelllang=en_us,de_20 "de_20 is "only new spelling"
+set spelllang=en_us,de_20 "de_20 is "only new spelling" for German. I'm German.
+set nospell               "Spelling will be turned on based on filetypes
 
 " Search {{{1
 set wrapscan   " Search from the beginning if EOF is hit
@@ -261,8 +281,8 @@ noremap <silent> <leader>mh <C-W>H
 noremap <silent> <leader>mj <C-W>J
 
 " Cycle between buffers easily
-noremap <silent> <leader>bn <C-I>
-noremap <silent> <leader>bp <C-O>
+noremap <silent> <leader>bn :bn<cr>
+noremap <silent> <leader>bp :bp<cr>
 
 "Delete current buffer
 noremap <silent> <leader>bd :bd<cr>
@@ -304,17 +324,6 @@ inoremap jj <ESC>
 " Note the trailing semicolon (;) - this is what tells vim to go up to root!
 set tags+=tags;
 
-" AutoCompletion, depending on the filetype.
-" Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
-" complete things like classnames, variables etc.
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-
 " Plugin Mappings and Settings {{{1
 
 " NERDTree {{{2
@@ -347,3 +356,18 @@ let Tlist_Exit_OnlyWindow = 1            " Closes window when the file edited ge
 let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when its opened
 let Tlist_File_Fold_Auto_Close = 1
 nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
+
+" Filetype Settings {{{1
+" Never open files with ft=plaintex (= vanilla TeX), but LaTeX!
+let g:tex_flavor = "latex"
+
+" AutoCompletion, depending on the filetype.
+" Using the omnifunc (insertmode -> <CTRL>-X <CTRL>-O ) allows to auto-
+" complete things like classnames, variables etc.
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
