@@ -9,22 +9,46 @@ set confirm         " displays a dialog when :q, :w etc. fail
 set wildmenu        " improves the menu when pressing "tab" in the command line
 set wildignore=*~   " Ignore backup files.
 set history=200     " Keeps more info in history. Default is 20.
+
+"
 " Don't write the backupfiles everywhere,
 " but put them into the ~/.vim/backup/ directory
+" Create folders in ~/.vim/ {{{2
+let undodir   = expand('~/.vim/undo/')
+let backupdir = expand('~/.vim/backup/')
+let swapdir   = expand('~/.vim/swap/')
+if !isdirectory(undodir)
+  call mkdir(undodir)
+endif
+if !isdirectory(backupdir)
+  call mkdir(backupdir)
+endif
+if !isdirectory(swapdir)
+  call mkdir(swapdir)
+endif
+" }}}2
+
 set backupdir=$HOME/.vim/backup//
 set directory=$HOME/.vim/swap//
 set undodir=$HOME/.vim/undo//
+set noundofile " Disabled undofiles; if you like this, uncomment!
+
 " Set the mapleader to , - we define this here because it will have effect on every occurrence of <Leader>
 let mapleader = ','
 
-" Basic mappings (movements etc.) {{{1
+" Search in parent directories for tag files. This is necessary as
+" the pwd will change to the currently used buffer.
+" Note the trailing semicolon (;) - this is what tells vim to go up to root!
+set tags+=tags;
 
-" It seems much more natural for me to move to the next actual word.
-" However, in the future, this might be set depending on filetypes.
-nnoremap w W
-nnoremap W w
-nnoremap b B
-nnoremap B b
+if has("autocmd")
+    autocmd BufEnter * :lcd %:p:h " Set vim directory to dir that contains file
+
+    autocmd bufwritepost .vimrc source $MYVIMRC " Auto-reload vimrc on save
+    " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
+    autocmd BufWritePre * :%s/\s\+$//e
+endif
+
 " Appearance {{{1
 " The default colorscheme is the wombat colorscheme, but if we're running VIM inside a terminal,
 " we need to make sure that we're using the 256 colors version
@@ -74,14 +98,15 @@ set pastetoggle=<F8> " Press F8 while in insert mode will toggle paste modes
 
 " smart indent when entering insert mode with i on empty lines
 " http://mbuffett.com/?p=14
-function! IndentWithI()
+function! SmarterIndentation(key)
     if len(getline('.')) == 0
         return "\"_ddO"
     else
-        return "i"
+        return a:key
     endif
 endfunction
-nnoremap <expr> i IndentWithI()
+nnoremap <expr> i SmarterIndentation("i")
+nnoremap <expr> a SmarterIndentation("a")
 
 " Add the git repository branch we're currently working in. This option makes
 " use of the fugitive plugin by Tim Pope
@@ -112,12 +137,9 @@ set foldmethod=marker
 "set foldmethod=indent       " Folds will be calculated on indentation
 "set foldnestmax=3           " Don't fold deeper than 3 levels
 
-
 " We want to have the default completion features including the syntax
 " completion (k)
 set complete=.,w,b,u,t,i,k
-
-
 
 " Shows a marker if the line is longer than 80 columns
 highlight ColorColumn ctermbg=magenta
@@ -127,7 +149,16 @@ call matchadd('ColorColumn', '\%81v', 100)
 exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
 set list
 
-" Mappings for hlsearch {{{1
+" Mappings {{{1
+" Basic mappings (movements etc.) {{{2
+" It seems much more natural for me to move to the next actual word.
+" However, in the future, this might be set depending on filetypes.
+nnoremap w W
+nnoremap W w
+nnoremap b B
+nnoremap B b
+
+" Mappings for hlsearch {{{2
 " This rewires n and N to do the highlighing...
 nnoremap <silent> n   n:call HLNext(0.4)<cr>
 nnoremap <silent> N   N:call HLNext(0.4)<cr>
@@ -140,6 +171,91 @@ function! HLNext (blinktime)
     set invcursorline
     redraw
 endfunction
+
+" Mappings for editing {{{2
+nnoremap Q gqip " Formats the current paragraph
+nnoremap S i<CR><ESC><left> " Splits lines. Opposite of J
+
+" Transpose current word with next word (tn) or with previous word (tp)
+" This version will work across newlines:
+:nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+:nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+
+" Swap current word with the next, but make cursor stay on current position
+:nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
+
+
+" Maps ' to ` and the other way round, since I think it's nicer to jump
+" to the precise location of a marker rather than just the line that contains
+" it.
+noremap ' `
+noremap ` '
+" Maps shortcuts for sessions. We want to save and load sessions easily,
+" because they're very helpful with quickly re-initializing projects.
+map <Home> :source ~/.vim/mysessions/
+map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
+
+" After doing a search with hlsearch turned on, all results are still being
+" highlighted. Thats really messy, so we want to disable it quickly.
+nnoremap <silent> <C-H> :nohls<CR><C-H>
+inoremap <silent> <C-H> <C-0>:nohls<CR>
+
+" Mappings for vim {{{2
+inoremap jj <ESC> " Quit insert mode quickly!
+" Load vimrc in new tab with <Leader>-v
+noremap <leader>ve :tabedit $MYVIMRC<CR>
+" 'sudo' save
+:cmap w!! w !sudo tee % > /dev/null
+" Window mappings {{{2
+" This section is used for window navigation. I didn't write it myself but
+" took it from
+" http://www.derekwyatt.org/vim/the-vimrc-file/walking-around-your-windows/ :)
+
+" Move the cursor to the window left of the current one
+noremap <silent> <leader>h :wincmd h<cr>
+
+" Move the cursor to the window below the current one
+noremap <silent> <leader>j :wincmd j<cr>
+
+" Move the cursor to the window above the current one
+noremap <silent> <leader>k :wincmd k<cr>
+
+" Move the cursor to the window right of the current one
+noremap <silent> <leader>l :wincmd l<cr>
+
+" Close the window below this one
+noremap <silent> <leader>cj :wincmd j<cr>:close<cr>
+
+" Close the window above this one
+noremap <silent> <leader>ck :wincmd k<cr>:close<cr>
+
+" Close the window to the left of this one
+noremap <silent> <leader>ch :wincmd h<cr>:close<cr>
+
+" Close the window to the right of this one
+noremap <silent> <leader>cl :wincmd l<cr>:close<cr>
+
+" Close the current window
+noremap <silent> <leader>cc :close<cr>
+
+" Move the current window to the right of the main Vim window
+noremap <silent> <leader>ml <C-W>L
+
+" Move the current window to the top of the main Vim window
+noremap <silent> <leader>mk <C-W>K
+
+" Move the current window to the left of the main Vim window
+noremap <silent> <leader>mh <C-W>H
+
+" Move the current window to the bottom of the main Vim window
+noremap <silent> <leader>mj <C-W>J
+
+" Cycle between buffers easily
+noremap <silent> <leader>bn :bn<cr>
+noremap <silent> <leader>bp :bp<cr>
+
+"Delete current buffer
+noremap <silent> <leader>bd :bd<cr>
 
 " Vundle Configuration {{{1
 " Activates filetype plugins. This is necessary e.g. for a proper
@@ -205,8 +321,7 @@ Plugin 'https://github.com/sjl/gundo.vim'
 ""filetype indent on " Indent, but be aware of the language we're currently working in
 filetype plugin indent on
 
-"}}}1
-" Dragvisuals Plugin {{{1
+" Dragvisuals Plugin {{{2
 " This is the dragvisuals plugin from Damian Conway, presented at OSCON 2013
 " http://youtu.be/aHm36-na4-4
 " I did not find any 'official' repository, so I'm sourcing it manually.
@@ -214,118 +329,8 @@ filetype plugin indent on
 " using the arrow keys.
 runtime plugin/dragvisuals.vim
 
-vmap  <expr>  <LEFT>   DVB_Drag('left')
-vmap  <expr>  <RIGHT>  DVB_Drag('right')
-vmap  <expr>  <DOWN>   DVB_Drag('down')
-vmap  <expr>  <UP>     DVB_Drag('up')
-vmap  <expr>  D        DVB_Duplicate()
-
-" Remove any introduced trailing whitespace after moving...
-let g:DVB_TrimWS = 1
-
-if has("autocmd")
-    autocmd BufEnter * :lcd %:p:h " Set vim directory to dir that contains file
-
-    autocmd bufwritepost .vimrc source $MYVIMRC " Auto-reload vimrc on save
-    " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
-    autocmd BufWritePre * :%s/\s\+$//e
-endif
-" Load vimrc in new tab with <Leader>-v
-noremap <leader>ve :tabedit $MYVIMRC<CR>
-
-" "sudo" save
-:cmap w!! w !sudo tee % > /dev/null
-
-" Window mappings {{{1
-" This section is used for window navigation. I didn't write it myself but
-" took it from
-" http://www.derekwyatt.org/vim/the-vimrc-file/walking-around-your-windows/ :)
-
-" Move the cursor to the window left of the current one
-noremap <silent> <leader>h :wincmd h<cr>
-
-" Move the cursor to the window below the current one
-noremap <silent> <leader>j :wincmd j<cr>
-
-" Move the cursor to the window above the current one
-noremap <silent> <leader>k :wincmd k<cr>
-
-" Move the cursor to the window right of the current one
-noremap <silent> <leader>l :wincmd l<cr>
-
-" Close the window below this one
-noremap <silent> <leader>cj :wincmd j<cr>:close<cr>
-
-" Close the window above this one
-noremap <silent> <leader>ck :wincmd k<cr>:close<cr>
-
-" Close the window to the left of this one
-noremap <silent> <leader>ch :wincmd h<cr>:close<cr>
-
-" Close the window to the right of this one
-noremap <silent> <leader>cl :wincmd l<cr>:close<cr>
-
-" Close the current window
-noremap <silent> <leader>cc :close<cr>
-
-" Move the current window to the right of the main Vim window
-noremap <silent> <leader>ml <C-W>L
-
-" Move the current window to the top of the main Vim window
-noremap <silent> <leader>mk <C-W>K
-
-" Move the current window to the left of the main Vim window
-noremap <silent> <leader>mh <C-W>H
-
-" Move the current window to the bottom of the main Vim window
-noremap <silent> <leader>mj <C-W>J
-
-" Cycle between buffers easily
-noremap <silent> <leader>bn :bn<cr>
-noremap <silent> <leader>bp :bp<cr>
-
-"Delete current buffer
-noremap <silent> <leader>bd :bd<cr>
-
-" Mappings for editing {{{1
-nnoremap Q gqip " Formats the current paragraph
-nnoremap S i<CR><ESC><left> " Splits lines. Opposite of J
-
-" Transpose current word with next word (tn) or with previous word (tp)
-" This version will work across newlines:
-:nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
-:nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
-
-" Swap current word with the next, but make cursor stay on current position
-:nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
-
-
-" Maps ' to ` and the other way round, since I think it's nicer to jump
-" to the precise location of a marker rather than just the line that contains
-" it.
-noremap ' `
-noremap ` '
-" Maps shortcuts for sessions. We want to save and load sessions easily,
-" because they're very helpful with quickly re-initializing projects.
-map <Home> :source ~/.vim/mysessions/
-map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
-
-" After doing a search with hlsearch turned on, all results are still being
-" highlighted. Thats really messy, so we want to disable it quickly.
-nnoremap <silent> <C-H> :nohls<CR><C-H>
-inoremap <silent> <C-H> <C-0>:nohls<CR>
-
-" {{{1
-" Quit insert mode quickly!
-inoremap jj <ESC>
-
-" Search in parent directories for tag files. This is necessary as
-" the pwd will change to the currently used buffer.
-" Note the trailing semicolon (;) - this is what tells vim to go up to root!
-set tags+=tags;
 
 " Plugin Mappings and Settings {{{1
-
 " NERDTree {{{2
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
@@ -357,6 +362,15 @@ let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when 
 let Tlist_File_Fold_Auto_Close = 1
 nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 
+" Dragvisuals Plugin {{{2
+vmap  <expr>  <LEFT>   DVB_Drag('left')
+vmap  <expr>  <RIGHT>  DVB_Drag('right')
+vmap  <expr>  <DOWN>   DVB_Drag('down')
+vmap  <expr>  <UP>     DVB_Drag('up')
+vmap  <expr>  D        DVB_Duplicate()
+
+" Remove any introduced trailing whitespace after moving...
+let g:DVB_TrimWS = 1
 " Filetype Settings {{{1
 " Never open files with ft=plaintex (= vanilla TeX), but LaTeX!
 let g:tex_flavor = "latex"
