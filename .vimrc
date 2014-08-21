@@ -6,6 +6,7 @@ set nocompatible
 set hidden          " Hidden buffers
 set lazyredraw      " Deactivates the redrawing during execution of macros and thus speeds up the execution!
 set confirm         " displays a dialog when :q, :w etc. fail
+set wildmode=list:longest,full
 set wildmenu        " improves the menu when pressing "tab" in the command line
 set wildignore=*~   " Ignore backup files.
 set history=200     " Keeps more info in history. Default is 20.
@@ -17,6 +18,7 @@ set history=200     " Keeps more info in history. Default is 20.
 let undodir   = expand('~/.vim/undo/')
 let backupdir = expand('~/.vim/backup/')
 let swapdir   = expand('~/.vim/swap/')
+let viewdir   = expand('~/.vim/view/')
 if !isdirectory(undodir)
   call mkdir(undodir)
 endif
@@ -26,11 +28,15 @@ endif
 if !isdirectory(swapdir)
   call mkdir(swapdir)
 endif
+if !isdirectory(viewdir)
+  call mkdir(viewdir)
+endif
 " }}}2
 
 set backupdir=$HOME/.vim/backup//
 set directory=$HOME/.vim/swap//
 set undodir=$HOME/.vim/undo//
+set viewdir=$HOME/.vim/view//
 set noundofile " Disabled undofiles; if you like this, uncomment!
 
 " Set the mapleader to , - we define this here because it will have effect on every occurrence of <Leader>
@@ -83,18 +89,22 @@ set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
 
 " Editing & Spelling {{{1
 set formatoptions-=o " While commenting, new lines (o/O) will not be commented
-set tabstop=4 " Insert 4 spaces for one tab
+
+set expandtab        " Uses spaces instead of tabs
+set tabstop=4        " Insert 4 spaces for one tab
+set softtabstop=4    " Backspace can delete indent
 
 " When opening a new line and no filetype-specific indenting is enabled, keep
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
 set shiftwidth=4
-set expandtab       " Uses spaces instead of tabs
 set backspace=start,indent,eol " Allows us to use backspace on (nearly) everything
 
 set gdefault  " Assumes the /g modifier is set by default. This means that ALL found matches will be replaced
 
-set pastetoggle=<F8> " Press F8 while in insert mode will toggle paste modes
+set wrap      " Set wrap
+
+set pastetoggle=<F12> " Press F8 while in insert mode will toggle paste modes
 
 " smart indent when entering insert mode with i on empty lines
 " http://mbuffett.com/?p=14
@@ -107,6 +117,12 @@ function! SmarterIndentation(key)
 endfunction
 nnoremap <expr> i SmarterIndentation("i")
 nnoremap <expr> a SmarterIndentation("a")
+
+" Smart indent in visualmode
+" This is just a lazy hack; you could use k> to
+" indent k times...
+vnoremap < <gv
+vnoremap > >gv
 
 " Add the git repository branch we're currently working in. This option makes
 " use of the fugitive plugin by Tim Pope
