@@ -2,15 +2,17 @@
 " no compliance mode - gives us the full feature set of vim
 " Must be at top, because other options will be changed as a
 " side effect as well.
+set confirm         " displays a dialog when :q, :w etc. fail
 set nocompatible
 set hidden          " Hidden buffers
-set lazyredraw      " Deactivates the redrawing during execution of macros and thus speeds up the execution!
-set confirm         " displays a dialog when :q, :w etc. fail
+set history=200     " Keeps more info in history. Default is 20.
+set lazyredraw      " Deactivates execution of macros and thus speeds up the execution!
+set showmode        " Show which mode we're in
+set visualbell      " Turnoff beeping
 set wildmode=list:longest,full
 set wildmenu        " improves the menu when pressing "tab" in the command line
-set wildignore+=*~  " Ignore backup files.
+set wildignore+=*~,*.o,*.class,*.git,*.svn,*.old,*.bak  " Ignore backup files.
 set wildignorecase  " Ignores capitalization
-set history=200     " Keeps more info in history. Default is 20.
 
 "
 " Don't write the backupfiles everywhere,
@@ -109,6 +111,8 @@ set pastetoggle=<F12> " Press F8 while in insert mode will toggle paste modes
 
 let &showbreak = '>>> ' " Equivalent to "set showbreak", but the trailing
                         " space is required.
+
+set diffopt+=iwhite     " Ignore changes in whitespace in diffs
 
 " smart indent when entering insert mode with i on empty lines
 " http://mbuffett.com/?p=14
@@ -219,11 +223,12 @@ map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
 
 " After doing a search with hlsearch turned on, all results are still being
 " highlighted. Thats really messy, so we want to disable it quickly.
-nnoremap <silent> <C-H> :nohls<CR><C-H>
-inoremap <silent> <C-H> <C-0>:nohls<CR>
+nnoremap <silent> <C-H> :nohls<CR>
+"inoremap <silent> <C-H> :nohls<CR>
 
 " Mappings for vim {{{2
 inoremap jj <ESC>" Quit insert mode quickly!
+cnoremap jj <C-C>" Quit command mode quickly!
 " Load vimrc in new tab with <Leader>-v
 noremap <leader>ve :tabedit $MYVIMRC<CR>
 " 'sudo' save
