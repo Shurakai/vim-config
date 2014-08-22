@@ -8,7 +8,8 @@ set lazyredraw      " Deactivates the redrawing during execution of macros and t
 set confirm         " displays a dialog when :q, :w etc. fail
 set wildmode=list:longest,full
 set wildmenu        " improves the menu when pressing "tab" in the command line
-set wildignore=*~   " Ignore backup files.
+set wildignore+=*~  " Ignore backup files.
+set wildignorecase  " Ignores capitalization
 set history=200     " Keeps more info in history. Default is 20.
 
 "
@@ -50,7 +51,7 @@ set tags+=tags;
 if has("autocmd")
     autocmd BufEnter * :lcd %:p:h " Set vim directory to dir that contains file
 
-    autocmd bufwritepost .vimrc source $MYVIMRC " Auto-reload vimrc on save
+    "autocmd bufwritepost .vimrc source $MYVIMRC " Auto-reload vimrc on save
     " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
     autocmd BufWritePre * :%s/\s\+$//e
 endif
@@ -100,11 +101,14 @@ set autoindent
 set shiftwidth=4
 set backspace=start,indent,eol " Allows us to use backspace on (nearly) everything
 
+set virtualedit=block " Allows virtual block mode to select empty locations.
 set gdefault  " Assumes the /g modifier is set by default. This means that ALL found matches will be replaced
-
 set wrap      " Set wrap
 
 set pastetoggle=<F12> " Press F8 while in insert mode will toggle paste modes
+
+let &showbreak = '>>> ' " Equivalent to "set showbreak", but the trailing
+                        " space is required.
 
 " smart indent when entering insert mode with i on empty lines
 " http://mbuffett.com/?p=14
@@ -145,6 +149,8 @@ set incsearch  " Starts searching as soon as you start typing
 set hlsearch   " Highlights search results
 set ignorecase " Use case insensitive search...
 set smartcase  " ... except when there are capital letters contained in the search string
+
+set showmatch  " Show briefly matching brackets. Type a char to jump back!
 
 " Folds {{{1
 " These commands open folds
@@ -217,7 +223,7 @@ nnoremap <silent> <C-H> :nohls<CR><C-H>
 inoremap <silent> <C-H> <C-0>:nohls<CR>
 
 " Mappings for vim {{{2
-inoremap jj <ESC> " Quit insert mode quickly!
+inoremap jj <ESC>" Quit insert mode quickly!
 " Load vimrc in new tab with <Leader>-v
 noremap <leader>ve :tabedit $MYVIMRC<CR>
 " 'sudo' save
