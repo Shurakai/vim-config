@@ -185,18 +185,6 @@ nnoremap b B
 nnoremap B b
 
 " Mappings for hlsearch {{{2
-" This rewires n and N to do the highlighing...
-nnoremap <silent> n   n:call HLNext(0.4)<cr>
-nnoremap <silent> N   N:call HLNext(0.4)<cr>
-
-" EITHER blink the line containing the match...
-function! HLNext (blinktime)
-    set invcursorline
-    redraw
-    exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-    set invcursorline
-    redraw
-endfunction
 
 " Mappings for editing {{{2
 nnoremap Q gqip " Formats the current paragraph
