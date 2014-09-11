@@ -152,7 +152,8 @@ set wrapscan   " Search from the beginning if EOF is hit
 set incsearch  " Starts searching as soon as you start typing
 set hlsearch   " Highlights search results
 set ignorecase " Use case insensitive search...
-set smartcase  " ... except when there are capital letters contained in the search string
+set nosmartcase  " ... except when there are capital letters contained in the search string
+                 " ... I actually disabled it because it confused me :)
 
 set showmatch  " Show briefly matching brackets. Type a char to jump back!
 
