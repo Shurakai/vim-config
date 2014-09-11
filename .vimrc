@@ -215,7 +215,7 @@ nnoremap <silent> <C-H> :nohls<CR>
 "inoremap <silent> <C-H> :nohls<CR>
 
 " Mappings for vim {{{2
-inoremap jj <ESC>" Quit insert mode quickly!
+inoremap jj <ESC><Right>" Quit insert mode quickly!
 cnoremap jj <C-C>" Quit command mode quickly!
 " Load vimrc in new tab with <Leader>-v
 noremap <leader>ve :tabedit $MYVIMRC<CR>
