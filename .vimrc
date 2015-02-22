@@ -273,37 +273,31 @@ noremap <silent> <leader>bp :bp<cr>
 "Delete current buffer
 noremap <silent> <leader>bd :bd<cr>
 
-" Vundle Configuration {{{1
+" vim-plug Configuration {{{1
 " Activates filetype plugins. This is necessary e.g. for a proper
 " PHP-Integration to work correctly. Also required by lots of plugins
 filetype off
-"call pathogen#helptags()
-"call pathogen#runtime_append_all_bundles()
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" Vundle package must be managed by vundle :)
-Plugin 'gmarik/vundle'
+call plug#begin('~/.vim/bundle')
 
 " NerdTree is really useful and absolutely needed
-Plugin 'scrooloose/nerdtree.git'
+Plug 'scrooloose/nerdtree.git', { 'on':  'NERDTreeToggle' }
 
 " The VIM Latex-Suite plugin is very useful - the version
 " I use here is NOT the original version, though.
-Plugin 'gerw/vim-latex-suite'
+Plug 'gerw/vim-latex-suite', { 'for': 'latex' }
 
-Plugin 'vim-scripts/Align'
+Plug 'vim-scripts/Align'
 
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
-Plugin 'drmingdrmer/xptemplate-dist'
+Plug 'drmingdrmer/xptemplate-dist'
 
-Plugin 'bingaman/vim-sparkup'
+Plug 'bingaman/vim-sparkup', { 'for': 'html' }
 
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 
 " This is an awesome plugin that allows you to easily jump to any
 " location. Make sure you read the documentation at
@@ -312,27 +306,33 @@ Plugin 'tpope/vim-repeat'
 " Default binding: <Leader><Leader>s ("search"), but you can use
 " f (search-forward) or F, w etc. as well! (Even multi-letter
 " bindings are possible, see docs)
-Plugin 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 
 " This is a syntax checker. For supported languages
 " and which binaries are expected for syntastic to work,
 " visit https://github.com/scrooloose/syntastic
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 
 " Use % to go to next match, for instance on HTML tags or to jump
 " to the next else if ...
 " Use g% to go back up.
-Plugin 'vim-scripts/matchit.zip'
+Plug 'vim-scripts/matchit.zip'
 
 " Provides a thesaurus.
 " Standard binding: <leader>K
 " Can be changed by binding :OnlineThesaurusCurrentWord
-Plugin 'beloglazov/vim-online-thesaurus'
+Plug 'beloglazov/vim-online-thesaurus'
 
 " Provides graphical undo trees.
 " To read more about vims (non-graphical) undo trees,
 " see :h undo-redo
-Plugin 'https://github.com/sjl/gundo.vim'
+Plug 'https://github.com/sjl/gundo.vim'
+
+Plug 'wincent/command-t'
+
+Plug 'jceb/vim-orgmode', { 'for': 'org'}
+
+call plug#end()
 
 ""filetype indent on " Indent, but be aware of the language we're currently working in
 filetype plugin indent on
@@ -387,6 +387,7 @@ vmap  <expr>  D        DVB_Duplicate()
 
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
+
 " Filetype Settings {{{1
 " Never open files with ft=plaintex (= vanilla TeX), but LaTeX!
 let g:tex_flavor = "latex"
