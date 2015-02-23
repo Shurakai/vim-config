@@ -48,7 +48,7 @@ let mapleader = ','
 " Search in parent directories for tag files. This is necessary as
 " the pwd will change to the currently used buffer.
 " Note the trailing semicolon (;) - this is what tells vim to go up to root!
-set tags+=tags;
+set tags=./tags,./ctags,ctags,tags;
 
 if has("autocmd")
     autocmd BufEnter * :lcd %:p:h " Set vim directory to dir that contains file
@@ -76,11 +76,12 @@ else
     colorscheme wombat
 endif
 
-set nu           " display line numbers
-set ruler        " Line & column number
-set laststatus=2 " Modifies the ruler. Looks nicer this way.
-set cursorline   " Highlights current cursorline with a different bg
-set showcmd      " shows partial commands can be found next to the ruler
+set relativenumber " Relative numbers
+set number         " display line numbers
+set ruler          " Line & column number
+set laststatus=2   " Modifies the ruler. Looks nicer this way.
+set cursorline     " Highlights current cursorline with a different bg
+set showcmd        " shows partial commands can be found next to the ruler
 " Start scrolling the window when we're 8 lines away from the border of the
 " current window or 7 lines away from the side
 set scrolloff    =8
@@ -280,8 +281,10 @@ filetype off
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'valloric/YouCompleteMe', { 'do': './install.sh' }
+
 " NerdTree is really useful and absolutely needed
-Plug 'scrooloose/nerdtree.git', { 'on':  'NERDTreeToggle' }
+"Plug 'scrooloose/nerdtree.git', { 'on':  'NERDTreeToggle' }
 
 " The VIM Latex-Suite plugin is very useful - the version
 " I use here is NOT the original version, though.
@@ -348,8 +351,11 @@ runtime plugin/dragvisuals.vim
 
 " Plugin Mappings and Settings {{{1
 " NERDTree {{{2
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
+"map <C-n> :NERDTreeToggle<CR>
+"let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
+
+" CommandT {{{2
+map <C-n> :CommandT<CR>
 
 " Sparkup {{{2
 let g:sparkupNextMapping = '<c-y>' " Sparkup must be remapped (defaults to CTRL+n)
@@ -378,6 +384,8 @@ let Tlist_GainFocus_On_ToggleOpen = 1    " Set focus to the taglist window when 
 let Tlist_File_Fold_Auto_Close = 1
 nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 
+" YouCompleteMe {{{2
+let g:ycm_collect_identifiers_from_tags_files = 1
 " Dragvisuals Plugin {{{2
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
