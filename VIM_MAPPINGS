@@ -1,0 +1,9 @@
+These bindings are usually default bindings. They are just here
+to remind me of them every now and then.
+
+
+Movements:
+    CTRL-I (other keybinding: TAB) and CTRL-O -- Next/previous entry in jumplist
+
+Search:
+    /foo/e jumps to the last character of foo, /foo/e+ jumps to the char after foo
