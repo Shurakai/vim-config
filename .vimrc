@@ -194,11 +194,11 @@ nnoremap S i<CR><ESC><left> " Splits lines. Opposite of J
 
 " Transpose current word with next word (tn) or with previous word (tp)
 " This version will work across newlines:
-:nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
-:nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+nnoremap <silent> <leader>tn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+nnoremap <silent> <leader>tp "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
 
 " Swap current word with the next, but make cursor stay on current position
-:nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
+nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
 
 
 " Maps ' to ` and the other way round, since I think it's nicer to jump
@@ -222,7 +222,8 @@ cnoremap jj <C-C>" Quit command mode quickly!
 " Load vimrc in new tab with <Leader>-v
 noremap <leader>ve :tabedit $MYVIMRC<CR>
 " 'sudo' save
-:cmap w!! w !sudo tee % > /dev/null
+cmap w!! w !sudo tee % > /dev/null
+
 " Window mappings {{{2
 " This section is used for window navigation. I didn't write it myself but
 " took it from
