@@ -101,7 +101,7 @@ set softtabstop=4    " Backspace can delete indent
 " When opening a new line and no filetype-specific indenting is enabled, keep
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
-set shiftwidth=4
+set shiftwidth=2
 set backspace=start,indent,eol " Allows us to use backspace on (nearly) everything
 
 set virtualedit=block " Allows virtual block mode to select empty locations.
