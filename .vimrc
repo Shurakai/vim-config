@@ -336,6 +336,14 @@ Plug 'wincent/command-t'
 
 Plug 'jceb/vim-orgmode', { 'for': 'org'}
 
+" If you set a mark, this plugin will visualise
+" where that mark is.
+Plug 'kshenoy/vim-signature'
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'airblade/vim-gitgutter'
+
 call plug#end()
 
 ""filetype indent on " Indent, but be aware of the language we're currently working in
@@ -357,6 +365,7 @@ runtime plugin/dragvisuals.vim
 
 " CommandT {{{2
 map <C-n> :CommandT<CR>
+nnoremap gb :CommandTBuffer<CR>
 
 " Sparkup {{{2
 let g:sparkupNextMapping = '<c-y>' " Sparkup must be remapped (defaults to CTRL+n)
@@ -386,7 +395,8 @@ let Tlist_File_Fold_Auto_Close = 1
 nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 
 " YouCompleteMe {{{2
-let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_collect_identifiers_from_tags_files       = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 " Dragvisuals Plugin {{{2
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
