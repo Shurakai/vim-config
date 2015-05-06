@@ -87,6 +87,9 @@ set showcmd        " shows partial commands can be found next to the ruler
 set scrolloff    =8
 set sidescrolloff=7
 
+" Set command-line window height (invoke with q: (or : in this vimrc))
+set cmdwinheight=3
+
 " Set the status line. Includes information about the current file,
 " linenumber, column number, the buffernumber of the file
 set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
