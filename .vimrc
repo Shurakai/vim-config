@@ -229,6 +229,10 @@ xnoremap x "_x
 " Mappings for vim {{{2
 inoremap jj <ESC><Right>" Quit insert mode quickly!
 cnoremap jj <C-C>" Quit command mode quickly!
+" Map : to q: to use the command-line window by default
+nnoremap : q:i
+nnoremap q: :
+
 " Load vimrc in new tab with <Leader>-v
 noremap <leader>ve :tabedit $MYVIMRC<CR>
 " 'sudo' save
