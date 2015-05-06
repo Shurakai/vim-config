@@ -219,6 +219,13 @@ map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
 nnoremap <silent> <C-H> :nohls<CR>
 "inoremap <silent> <C-H> :nohls<CR>
 
+" This prevents 'x' from overwriting the register that we can use for pasting.
+" "_ selects the register that does not store anything, (named '_').
+" See
+" http://stackoverflow.com/questions/1497958/how-to-use-vim-registers/7019060#7019060
+nnoremap x "_x
+xnoremap x "_x
+
 " Mappings for vim {{{2
 inoremap jj <ESC><Right>" Quit insert mode quickly!
 cnoremap jj <C-C>" Quit command mode quickly!
