@@ -113,7 +113,7 @@ set wrap      " Set wrap
 
 set pastetoggle=<F12> " Press F8 while in insert mode will toggle paste modes
 
-let &showbreak = '>>> ' " Equivalent to "set showbreak", but the trailing
+let &showbreak = '»»» ' " Equivalent to "set showbreak", but the trailing
                         " space is required.
 
 set diffopt+=iwhite     " Ignore changes in whitespace in diffs
