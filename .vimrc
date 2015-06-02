@@ -411,6 +411,7 @@ nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 " YouCompleteMe {{{2
 let g:ycm_collect_identifiers_from_tags_files       = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_extra_conf_globlist = ['~/workspace/*','!~/*']
 " Dragvisuals Plugin {{{2
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
@@ -420,6 +421,10 @@ vmap  <expr>  D        DVB_Duplicate()
 
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
+
+" org-mode {{{2
+let g:org_export_emacs="/usr/local/bin/emacs"
+let g:org_export_init_script="~/.emacs.d/init.el"
 
 " Filetype Settings {{{1
 " Never open files with ft=plaintex (= vanilla TeX), but LaTeX!
