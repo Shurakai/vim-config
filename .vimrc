@@ -389,6 +389,22 @@ nnoremap gb :CommandTBuffer<CR>
 let g:CommandTAcceptSelectionSplitMap = ['<C-f>']
 let g:CommandTCancelMap= ['<C-x>', '<C-c>' ]
 
+" Don't open same file in multiple splits {{{3
+function! GotoOrOpen(...)
+  for file in a:000
+    if bufwinnr(file) != -1
+      exec "sb " . file
+    else
+      exec "tabe " . file
+    endif
+  endfor
+endfunction
+
+command! -nargs=+ GotoOrOpen call GotoOrOpen("<args>")
+
+let g:CommandTAcceptSelectionVSplitCommand = 'GotoOrOpen'
+" }}}
+
 " Sparkup {{{2
 let g:sparkupNextMapping = '<c-y>' " Sparkup must be remapped (defaults to CTRL+n)
 
