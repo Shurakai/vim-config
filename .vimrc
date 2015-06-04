@@ -8,6 +8,7 @@ set hidden          " Hidden buffers
 set history=200     " Keeps more info in history. Default is 20.
 set lazyredraw      " Deactivates execution of macros and thus speeds up the execution!
 set showmode        " Show which mode we're in
+set switchbuf=useopen " If you want to open a split but that file is already open, jump there.
 set visualbell      " Turnoff beeping
 set wildmode=list:longest,full
 set wildmenu        " improves the menu when pressing "tab" in the command line
