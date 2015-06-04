@@ -419,6 +419,10 @@ nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 let g:ycm_collect_identifiers_from_tags_files       = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/workspace/*','!~/*']
+" GitGutter {{{2
+" Please don't map any keys.
+let g:gitgutter_map_keys = 0
+
 " Dragvisuals Plugin {{{2
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
