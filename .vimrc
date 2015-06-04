@@ -385,6 +385,9 @@ runtime plugin/dragvisuals.vim
 map <C-n> :CommandT<CR>
 nnoremap gb :CommandTBuffer<CR>
 
+let g:CommandTAcceptSelectionSplitMap = ['<C-f>']
+let g:CommandTCancelMap= ['<C-x>', '<C-c>' ]
+
 " Sparkup {{{2
 let g:sparkupNextMapping = '<c-y>' " Sparkup must be remapped (defaults to CTRL+n)
 
