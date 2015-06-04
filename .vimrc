@@ -298,9 +298,6 @@ call plug#begin('~/.vim/bundle')
 
 Plug 'valloric/YouCompleteMe', { 'do': './install.sh' }
 
-" NerdTree is really useful and absolutely needed
-"Plug 'scrooloose/nerdtree.git', { 'on':  'NERDTreeToggle' }
-
 " The VIM Latex-Suite plugin is very useful - the version
 " I use here is NOT the original version, though.
 Plug 'gerw/vim-latex-suite', { 'for': 'latex' }
@@ -373,10 +370,6 @@ runtime plugin/dragvisuals.vim
 
 
 " Plugin Mappings and Settings {{{1
-" NERDTree {{{2
-"map <C-n> :NERDTreeToggle<CR>
-"let NERDTreeShowBookmarks = 1 " We really want to see bookmarks in NERDTree!
-
 " CommandT {{{2
 map <C-n> :CommandT<CR>
 nnoremap gb :CommandTBuffer<CR>
