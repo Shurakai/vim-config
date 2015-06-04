@@ -282,6 +282,11 @@ noremap <silent> <leader>mh <C-W>H
 " Move the current window to the bottom of the main Vim window
 noremap <silent> <leader>mj <C-W>J
 
+nmap <Leader>w- <Plug>(golden_ratio_resize)
+" Fill screen with current window.
+nnoremap <Plug>(window-fill-screen) <C-w><Bar><C-w>_
+nmap <Leader>w+ <Plug>(window-fill-screen)
+
 " Cycle between buffers easily
 noremap <silent> <leader>bn :bn<cr>
 noremap <silent> <leader>bp :bp<cr>
@@ -355,6 +360,7 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'airblade/vim-gitgutter'
 
+Plug 'roman/golden-ratio'
 call plug#end()
 
 ""filetype indent on " Indent, but be aware of the language we're currently working in
