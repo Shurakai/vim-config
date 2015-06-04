@@ -395,7 +395,7 @@ function! GotoOrOpen(...)
     if bufwinnr(file) != -1
       exec "sb " . file
     else
-      exec "tabe " . file
+      exec "sp " . file
     endif
   endfor
 endfunction
