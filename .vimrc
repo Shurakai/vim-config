@@ -352,6 +352,11 @@ Plug 'wincent/command-t'
 
 Plug 'jceb/vim-orgmode', { 'for': 'org'}
 
+" SyntaxRange is used by vim-orgmode and supports
+" different syntaxes in different regions (in orgmode,
+" that's #+BEGIN_SRC sh|R|latex ...
+Plug 'vim-scripts/SyntaxRange'
+
 " If you set a mark, this plugin will visualise
 " where that mark is.
 Plug 'kshenoy/vim-signature'
