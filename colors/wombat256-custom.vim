@@ -286,7 +286,7 @@ call <SID>X("Special",		"ffdead",	"",			"none")
 call <SID>X("Todo",			"857b6f",	"",			"italic")
 			"Underlined
 			"Error
-			"Ignore
+call <SID>X("Ignore",			"242424",	"",			"none")
 
 hi! link VisualNOS	Visual
 hi! link NonText	LineNr
