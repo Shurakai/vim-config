@@ -451,7 +451,7 @@ vmap  <expr>  D        DVB_Duplicate()
 let g:DVB_TrimWS = 1
 
 " org-mode {{{2
-let g:org_export_emacs="/usr/local/bin/emacs"
+let g:org_export_emacs=system("which emacs")
 let g:org_export_init_script="~/.emacs.d/init.el"
 
 " Filetype Settings {{{1
