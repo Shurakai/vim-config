@@ -450,7 +450,22 @@ vmap  <expr>  D        DVB_Duplicate()
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
 
-" org-mode {{{2
+" OrgMode configuration {{{2
+let g:org_todo_keywords = [[ 'TODO', 'STARTED', 'WAITING', 'APPT', '|', 'DONE', 'CANCELLED', 'DEFERRED' ],
+                        \  [ 'GOOD', 'CRITICISM', 'INTERESTING'],
+                        \  [ 'QUESTION', '|', 'RESOLVED']]
+
+" See http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
+" for details on colors and what the numbers mean.
+let g:org_todo_keyword_faces = [['TODO'        , [':foreground 196', ':background none']]   ,
+                             \  ['CRITICISM'   , [':foreground 160',    ':background none']],
+                             \  ['INTERESTING' , [':foreground cyan',   ':background none']],
+                             \  ['QUESTION'    , [':foreground 105', ':background none']]   ,
+                             \  ['CANCELLED'   , [':foreground 139', ':background none']]   ,
+                             \  ['DEFERRED'    , [':foreground grey', ':background none']]]
+
+hi! Title ctermfg=147
+
 let g:org_export_emacs=system("which emacs")
 let g:org_export_init_script="~/.emacs.d/init.el"
 
