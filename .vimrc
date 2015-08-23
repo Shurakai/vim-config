@@ -15,7 +15,6 @@ set wildmenu        " improves the menu when pressing "tab" in the command line
 set wildignore+=*~,*.o,*.class,*.git,*.svn,*.old,*.bak  " Ignore backup files.
 set wildignorecase  " Ignores capitalization
 
-"
 " Don't write the backupfiles everywhere,
 " but put them into the ~/.vim/backup/ directory
 " Create folders in ~/.vim/ {{{2
@@ -49,14 +48,28 @@ let mapleader = ','
 " Search in parent directories for tag files. This is necessary as
 " the pwd will change to the currently used buffer.
 " Note the trailing semicolon (;) - this is what tells vim to go up to root!
-set tags=./tags,./ctags,ctags,tags;
+set tags=./tags,./ctags;
 
 if has("autocmd")
     autocmd BufEnter * :lcd %:p:h " Set vim directory to dir that contains file
 
     "autocmd bufwritepost .vimrc source $MYVIMRC " Auto-reload vimrc on save
     " Seriously, we don't like trailing whitespaces, so we remove them just before the file gets written
-    autocmd BufWritePre * :%s/\s\+$//e
+    augroup remove_whitespace
+      au!
+
+      " Set a mark to the current position
+      autocmd BufWritePre normal mZ
+      " Delete the patterns
+      autocmd BufWritePre :%s/\s\+$//e
+      " Delete history
+      autocmd BufWritePre :let @/=''
+      " Jump back to the exact cursor position of the previously defined mark.
+      " The jump here is necessary as the substitute/replace operation may
+      " jump to the location of a whitespace that was just replaced, hence
+      " moving the cursor.
+      autocmd BufWritePre normal `Z
+    augroup END
 endif
 
 " Appearance {{{1
@@ -137,6 +150,20 @@ nnoremap <expr> a SmarterIndentation("a")
 vnoremap < <gv
 vnoremap > >gv
 
+" Move by default visual lines, not lines in the file
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+" Moves back to the previous position after joining two lines
+nnoremap J mZJ`Z
+
+" Transforms a word to uppercase, very useful to transform
+" characters into constants
+" Mnemoniac: Großbuchstaben (German for "uppercase letters")
+inoremap <C-g> <ESC>mzgUiW`za
+
 " Add the git repository branch we're currently working in. This option makes
 " use of the fugitive plugin by Tim Pope
 "set statusline +=\ \ \ %{fugitive#statusline()}
@@ -151,6 +178,7 @@ vnoremap > >gv
 " https://groups.google.com/d/topic/vim_dev/7HTs6kIKnPQ/discussion
 set spelllang=en_us,de_20 "de_20 is "only new spelling" for German. I'm German.
 set nospell               "Spelling will be turned on based on filetypes
+
 
 " Search {{{1
 set wrapscan   " Search from the beginning if EOF is hit
@@ -190,6 +218,12 @@ nnoremap W w
 nnoremap b B
 nnoremap B b
 
+
+" Buffers {{{2
+" Switch to the alternate buffer quickly. I also use this with
+" pentadactyl.
+nnoremap ga :b#<cr>
+
 " Mappings for hlsearch {{{2
 
 " Mappings for editing {{{2
@@ -214,6 +248,13 @@ noremap ` '
 " because they're very helpful with quickly re-initializing projects.
 map <Home> :source ~/.vim/mysessions/
 map <End> :wa<Bar>exec ":mksession! " v:this_session <CR>
+
+" Follow tags more easily
+nmap <leader>t <C-]>
+" Remaps the "jump forward" feature
+nmap <leader>i <C-i>
+" Remaps the "jump back" feature
+nmap <leader>o <C-o>
 
 " After doing a search with hlsearch turned on, all results are still being
 " highlighted. Thats really messy, so we want to disable it quickly.
@@ -312,7 +353,7 @@ Plug 'vim-scripts/Align'
 
 Plug 'scrooloose/nerdcommenter'
 
-Plug 'drmingdrmer/xptemplate-dist'
+Plug 'drmingdrmer/xptemplate'
 
 Plug 'bingaman/vim-sparkup', { 'for': 'html' }
 
@@ -366,7 +407,22 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'airblade/vim-gitgutter'
 
+" This plugin beautifully re-aligns splits: If another
+" window gets the focus, this window is re-sized so that
+" editing is more convenient.
 Plug 'roman/golden-ratio'
+
+"Plug 'reedes/vim-lexical'
+
+Plug 'dhruvasagar/vim-table-mode'
+
+" Regenerate tagfiles only for the currently edited file,
+" not for anything else. This makes it really fast to have
+" an up-to-date tagfile!
+Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'majutsushi/tagbar'
+
 call plug#end()
 
 ""filetype indent on " Indent, but be aware of the language we're currently working in
@@ -452,12 +508,14 @@ let g:DVB_TrimWS = 1
 
 " OrgMode configuration {{{2
 let g:org_todo_keywords = [[ 'TODO', 'STARTED', 'WAITING', 'APPT', '|', 'DONE', 'CANCELLED', 'DEFERRED' ],
-                        \  [ 'GOOD', 'CRITICISM', 'INTERESTING'],
+                        \  [ 'GOOD', 'CRITICISM', 'INTERESTING', '|'],
+                        \  [ 'UNREAD', '|', 'READ'],
                         \  [ 'QUESTION', '|', 'RESOLVED']]
 
 " See http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
 " for details on colors and what the numbers mean.
 let g:org_todo_keyword_faces = [['TODO'        , [':foreground 196', ':background none']]   ,
+                             \  ['UNREAD'      , [':foreground 196', ':background none']]   ,
                              \  ['CRITICISM'   , [':foreground 160',    ':background none']],
                              \  ['INTERESTING' , [':foreground cyan',   ':background none']],
                              \  ['QUESTION'    , [':foreground 105', ':background none']]   ,
@@ -466,7 +524,8 @@ let g:org_todo_keyword_faces = [['TODO'        , [':foreground 196', ':backgroun
 
 hi! Title ctermfg=147
 
-let g:org_export_emacs=system("which emacs")
+"let g:org_export_emacs=system("which emacs")
+let g:org_export_emacs="/usr/local/bin/emacs"
 let g:org_export_init_script="~/.emacs.d/init.el"
 
 " Filetype Settings {{{1
