@@ -41,6 +41,7 @@ set directory=$HOME/.vim/swap//
 set undodir=$HOME/.vim/undo//
 set viewdir=$HOME/.vim/view//
 set noundofile " Disabled undofiles; if you like this, uncomment!
+set noswapfile " I almost never need them.
 
 " Set the mapleader to , - we define this here because it will have effect on every occurrence of <Leader>
 let mapleader = ','
@@ -59,16 +60,16 @@ if has("autocmd")
       au!
 
       " Set a mark to the current position
-      autocmd BufWritePre normal mZ
+      autocmd! BufWritePre normal mZ
       " Delete the patterns
-      autocmd BufWritePre :%s/\s\+$//e
+      autocmd! BufWritePre :%s/\s\+$//e
       " Delete history
-      autocmd BufWritePre :let @/=''
+      autocmd! BufWritePre :let @/=''
       " Jump back to the exact cursor position of the previously defined mark.
       " The jump here is necessary as the substitute/replace operation may
       " jump to the location of a whitespace that was just replaced, hence
       " moving the cursor.
-      autocmd BufWritePre normal `Z
+      autocmd! BufWritePre normal `Z
     augroup END
 endif
 
@@ -324,6 +325,7 @@ noremap <silent> <leader>mh <C-W>H
 " Move the current window to the bottom of the main Vim window
 noremap <silent> <leader>mj <C-W>J
 
+
 nmap <Leader>w- <Plug>(golden_ratio_resize)
 " Fill screen with current window.
 nnoremap <Plug>(window-fill-screen) <C-w><Bar><C-w>_
@@ -334,7 +336,7 @@ noremap <silent> <leader>bn :bn<cr>
 noremap <silent> <leader>bp :bp<cr>
 
 "Delete current buffer
-noremap <silent> <leader>bd :bd<cr>
+noremap <silent> K :bd<cr>
 
 " vim-plug Configuration {{{1
 " Activates filetype plugins. This is necessary e.g. for a proper
@@ -419,7 +421,7 @@ Plug 'dhruvasagar/vim-table-mode'
 " Regenerate tagfiles only for the currently edited file,
 " not for anything else. This makes it really fast to have
 " an up-to-date tagfile!
-Plug 'ludovicchabant/vim-gutentags'
+"Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'majutsushi/tagbar'
 
@@ -492,6 +494,9 @@ nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 let g:ycm_collect_identifiers_from_tags_files       = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/workspace/*','!~/*']
+let g:ycm_filetype_blacklist = {
+    \ 'org': 1
+\}
 " GitGutter {{{2
 " Please don't map any keys.
 let g:gitgutter_map_keys = 0
