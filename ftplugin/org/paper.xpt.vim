@@ -1,7 +1,7 @@
 XPTemplate priority=personal+
 
 XPT org-paper
-**** TODO `papername^
+**** UNREAD `papername^
 ***** Summary
       `cursor^
 
