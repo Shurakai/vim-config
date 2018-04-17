@@ -204,7 +204,7 @@ set complete=.,w,b,u,t,i,k
 
 " Shows a marker if the line is longer than 80 columns
 highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
+call matchadd('ColorColumn', '\%81v', 120)
 
 " This shows special characters for trailing whitespaces and tabs.
 exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
