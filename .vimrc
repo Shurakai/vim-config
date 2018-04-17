@@ -12,7 +12,7 @@ set switchbuf=useopen " If you want to open a split but that file is already ope
 set visualbell      " Turnoff beeping
 set wildmode=list:longest,full
 set wildmenu        " improves the menu when pressing "tab" in the command line
-set wildignore+=*~,*.o,*.class,*.git,*.svn,*.old,*.bak  " Ignore backup files.
+set wildignore+=*~,*.o,~.so,*.class,*.git,*.svn,*.old,*.bak  " Ignore these file extensions.
 set wildignorecase  " Ignores capitalization
 
 " Don't write the backupfiles everywhere,
