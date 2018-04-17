@@ -269,6 +269,21 @@ nnoremap <silent> <C-H> :nohls<CR>
 nnoremap x "_x
 xnoremap x "_x
 
+" From https://stackoverflow.com/questions/20764610/how-do-i-use-the-tag-command-in-vim-to-toggle-between-hpp-and-the-correspondin
+" Switches from file foo.cpp to foo.hpp via the tag command; for this to work, 
+" ctags must be loaded and ctags must have been given the --extra=+f flag (this adds
+" a tag for the first line of each file, making it possible to jump to a file based on its filename)
+function! OtherName()
+        if expand('%:e') == "cpp"
+                return substitute( expand('%:t'), "cpp", "hpp", "" )
+        elseif expand('%:e') == "hpp"
+                return substitute( expand('%:t'), "hpp", "cpp", "" )
+        endif
+endfunction
+nmap <F4> :execute "tag" OtherName()<CR>
+
+
+
 " Mappings for vim {{{2
 inoremap jj <ESC><Right>" Quit insert mode quickly!
 cnoremap jj <C-C>" Quit command mode quickly!
@@ -345,7 +360,7 @@ filetype off
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'valloric/YouCompleteMe', { 'do': './install.sh', 'for': ['cpp', 'c', 'java', 'rb', 'php'] }
 
 " The VIM Latex-Suite plugin is very useful - the version
 " I use here is NOT the original version, though.
@@ -363,6 +378,8 @@ Plug 'tpope/vim-surround'
 
 Plug 'tpope/vim-repeat'
 
+Plug 'reedes/vim-textobj-quote'
+
 " This is an awesome plugin that allows you to easily jump to any
 " location. Make sure you read the documentation at
 " https://github.com/Lokaltog/vim-easymotion
@@ -375,7 +392,7 @@ Plug 'Lokaltog/vim-easymotion'
 " This is a syntax checker. For supported languages
 " and which binaries are expected for syntastic to work,
 " visit https://github.com/scrooloose/syntastic
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', { 'for': ['c', 'cpp', 'php', 'java'] }
 
 " Use % to go to next match, for instance on HTML tags or to jump
 " to the next else if ...
@@ -394,13 +411,6 @@ Plug 'https://github.com/sjl/gundo.vim'
 
 Plug 'wincent/command-t'
 
-Plug 'jceb/vim-orgmode', { 'for': 'org'}
-
-" SyntaxRange is used by vim-orgmode and supports
-" different syntaxes in different regions (in orgmode,
-" that's #+BEGIN_SRC sh|R|latex ...
-Plug 'vim-scripts/SyntaxRange'
-
 " If you set a mark, this plugin will visualise
 " where that mark is.
 Plug 'kshenoy/vim-signature'
@@ -415,8 +425,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'roman/golden-ratio'
 
 "Plug 'reedes/vim-lexical'
-
-Plug 'dhruvasagar/vim-table-mode'
 
 " Regenerate tagfiles only for the currently edited file,
 " not for anything else. This makes it really fast to have
@@ -443,9 +451,15 @@ runtime plugin/dragvisuals.vim
 " CommandT {{{2
 map <C-n> :CommandT<CR>
 nnoremap gb :CommandTBuffer<CR>
+nnoremap gt :CommandTTag<CR>
+nnoremap gt :CommandTSearch<CR>
+
+" This adds even more filetypes, but just for Command-T
+let g:CommandTWildIgnore=&wildignore . ",*/doc,*.bin,"
 
 let g:CommandTAcceptSelectionSplitMap = ['<C-f>']
 let g:CommandTCancelMap= ['<C-x>', '<C-c>' ]
+"let g:CommandTFileScanner = 'ruby' " for git, set to 'git' -> much faster
 
 " Don't open same file in multiple splits {{{3
 function! GotoOrOpen(...)
@@ -491,6 +505,7 @@ let Tlist_File_Fold_Auto_Close = 1
 nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 
 " YouCompleteMe {{{2
+let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files       = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/workspace/*','!~/*']
@@ -511,27 +526,12 @@ vmap  <expr>  D        DVB_Duplicate()
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
 
-" OrgMode configuration {{{2
-let g:org_todo_keywords = [[ 'TODO', 'STARTED', 'WAITING', 'APPT', '|', 'DONE', 'CANCELLED', 'DEFERRED' ],
-                        \  [ 'GOOD', 'CRITICISM', 'INTERESTING', '|'],
-                        \  [ 'UNREAD', '|', 'READ'],
-                        \  [ 'QUESTION', '|', 'RESOLVED']]
-
-" See http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
-" for details on colors and what the numbers mean.
-let g:org_todo_keyword_faces = [['TODO'        , [':foreground 196', ':background none']]   ,
-                             \  ['UNREAD'      , [':foreground 196', ':background none']]   ,
-                             \  ['CRITICISM'   , [':foreground 160',    ':background none']],
-                             \  ['INTERESTING' , [':foreground cyan',   ':background none']],
-                             \  ['QUESTION'    , [':foreground 105', ':background none']]   ,
-                             \  ['CANCELLED'   , [':foreground 139', ':background none']]   ,
-                             \  ['DEFERRED'    , [':foreground grey', ':background none']]]
-
 hi! Title ctermfg=147
 
-"let g:org_export_emacs=system("which emacs")
-let g:org_export_emacs="/usr/local/bin/emacs"
-let g:org_export_init_script="~/.emacs.d/init.el"
+" {{{ vim-textobj-quote 
+let g:textobj#quote#educate = 1       " 0=disable, 1=enable (def)
+let g:textobj#quote#doubleDefault = '„“'     " „doppel“
+let g:textobj#quote#singleDefault = '‚‘'     " ‚einzel‘
 
 " Filetype Settings {{{1
 " Never open files with ft=plaintex (= vanilla TeX), but LaTeX!
@@ -547,5 +547,16 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
+
+augroup textobj_quote
+  autocmd!
+
+  if @% == 'journal.org'
+    autocmd FileType org call textobj#quote#init({ 'double':'“”', 'single':'‘’' })
+  else 
+    autocmd FileType org call textobj#quote#init({ 'double':'„“', 'single':'‚‘' })
+  endif 
+  
+augroup END
 
 let localleader="\\"
