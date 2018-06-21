@@ -360,7 +360,7 @@ filetype off
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'valloric/YouCompleteMe', { 'do': './install.sh', 'for': ['cpp', 'c', 'java', 'rb', 'php'] }
+Plug 'valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-boost', 'for': ['cpp', 'c', 'java', 'rb', 'php'] }
 
 " The VIM Latex-Suite plugin is very useful - the version
 " I use here is NOT the original version, though.
@@ -457,6 +457,7 @@ nnoremap gt :CommandTSearch<CR>
 " This adds even more filetypes, but just for Command-T
 let g:CommandTWildIgnore=&wildignore . ",*/doc,*.bin,"
 
+" Now sure why this does not work, but C-v is for vertical splits and works.
 let g:CommandTAcceptSelectionSplitMap = ['<C-f>']
 let g:CommandTCancelMap= ['<C-x>', '<C-c>' ]
 "let g:CommandTFileScanner = 'ruby' " for git, set to 'git' -> much faster
@@ -505,7 +506,9 @@ let Tlist_File_Fold_Auto_Close = 1
 nmap <C-l> :TlistToggle<CR>              " Map the TlistToggle Command to CTRL+l
 
 " YouCompleteMe {{{2
-let g:ycm_show_diagnostics_ui = 0
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 1
 let g:ycm_collect_identifiers_from_tags_files       = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/workspace/*','!~/*']
@@ -516,6 +519,12 @@ let g:ycm_filetype_blacklist = {
 " Please don't map any keys.
 let g:gitgutter_map_keys = 0
 
+" Gundo {{{2
+" Gundo requires normally python2, but when python3 is installed we
+" need to make sure Gundo knows that.
+if has('python3')
+      let g:gundo_prefer_python3 = 1
+endif
 " Dragvisuals Plugin {{{2
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
