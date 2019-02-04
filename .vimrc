@@ -452,7 +452,7 @@ runtime plugin/dragvisuals.vim
 map <C-n> :CommandT<CR>
 nnoremap gb :CommandTBuffer<CR>
 nnoremap gt :CommandTTag<CR>
-nnoremap gt :CommandTSearch<CR>
+"nnoremap gt :CommandTSearch<CR>
 
 " This adds even more filetypes, but just for Command-T
 let g:CommandTWildIgnore=&wildignore . ",*/doc,*.bin,"
@@ -515,6 +515,8 @@ let g:ycm_extra_conf_globlist = ['~/workspace/*','!~/*']
 let g:ycm_filetype_blacklist = {
     \ 'org': 1
 \}
+noremap <leader>gt :YcmCompleter GetType<CR>
+noremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " GitGutter {{{2
 " Please don't map any keys.
 let g:gitgutter_map_keys = 0
